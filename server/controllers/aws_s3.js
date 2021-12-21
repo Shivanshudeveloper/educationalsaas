@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-//AKIA5DRMJWFWRPHVIF6X,V1N0DAtoTq2I/1PRWao6QM7YKem6KX6nd32d+foM need store this in env varaibles
+
 AWS.config.update({
     accessKeyId: process.env.ACCESS_KEY,
     secretAccessKey: process.env.SECRET_KEY,
