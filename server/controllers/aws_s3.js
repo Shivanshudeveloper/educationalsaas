@@ -1,0 +1,55 @@
+const AWS = require('aws-sdk');
+//AKIA5DRMJWFWRPHVIF6X,V1N0DAtoTq2I/1PRWao6QM7YKem6KX6nd32d+foM need store this in env varaibles
+AWS.config.update({
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_KEY,
+    region: 'eu-central-1'
+});
+var s3 = new AWS.S3();
+const listVideos = async (req,res) => {
+    try{
+        const {date} = req.query;
+        if(date){
+            var params = {
+                Bucket: 'evaliain',
+                
+            };        
+            const list = await s3.listObjectsV2(params).promise();
+            const listUrls = []
+            for(let i=0;i<list.Contents.length;i++){
+                if(list.Contents[i].Key.includes("mp4")){
+                    url = `https://evaliain.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`
+                    if(url.includes(date)){
+                        listUrls.push(url);
+                    }           
+                }
+            }
+            res.status(200).json(listUrls);
+            
+        }else{
+            var params = {
+                Bucket: 'evaliain',
+            };        
+            const list = await s3.listObjectsV2(params).promise();
+            const listUrls = []
+            for(let i=0;i<list.Contents.length;i++){
+                if(list.Contents[i].Key.includes("mp4")){
+                    url = `https://evaliain.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`
+                    listUrls.push({
+                        videoUrl: url,
+    
+                    });           
+                }
+            }
+            res.status(200).json(listUrls);
+        }
+        
+    }
+    catch(err){
+        console.log(err);
+    }
+
+}
+
+module.exports = {
+    listVideos}
