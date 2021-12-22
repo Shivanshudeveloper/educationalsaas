@@ -99,7 +99,7 @@ const Register = () => {
                     <Divider />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid
+                    {/* <Grid
                       item
                       container
                       direction="column"
@@ -114,7 +114,7 @@ const Register = () => {
                       >
                         Have an account?
                       </Typography>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
               </AuthCardWrapper>

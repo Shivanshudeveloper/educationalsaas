@@ -107,14 +107,14 @@ const Login = () => {
                       alignItems="center"
                       xs={12}
                     >
-                      <Typography
+                      {/* <Typography
                         component={RouterLink}
                         to="/pages/register/register3"
                         variant="subtitle1"
                         sx={{ textDecoration: "none" }}
                       >
                         Don&apos;t have an account?
-                      </Typography>
+                      </Typography> */}
                     </Grid>
                   </Grid>
                 </Grid>
