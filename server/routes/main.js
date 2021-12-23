@@ -700,6 +700,16 @@ router.get("/getevents/:userEmail", async (req, res) => {
     res.send(err);
   }
 });
+router.patch("/updateevent",  (req, res) => {
+  const {event}=req.body;
+  Event_Model.findOneAndUpdate({_id:event._id}, event, function(err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
 router.delete("/deleteevent/:id", async (req, res) => {
   const {id}=req.params;
   try {

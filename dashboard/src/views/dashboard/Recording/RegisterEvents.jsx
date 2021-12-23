@@ -33,6 +33,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import { API_SERVICE } from "config";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Radio from "@mui/material/Radio";
@@ -165,6 +166,17 @@ const RegisterEvents = () => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const [Todelete,setToDelete]=useState(null);
+  const [eventEdit,setEventEdit]=useState({
+    title: "",
+    startDate: null,
+    endDate: null,
+    startTime: "00:00am",
+    endTime: "00:00am",
+    email: "",
+    description: "",
+    recurrenceType: "Doesn't repeat",
+    recurrenceValue: {},
+  });
   const [custom, setCustom] = useState({
     repeatEvery: {
       count: 0,
@@ -185,9 +197,10 @@ const RegisterEvents = () => {
     },
   });
   const [openCustom, setOpenCustom] = useState(false);
+  const [openEdit,setOpenEdit]=useState(false);
   const [event, setEvent] = useState({
     title: "",
-    startDate: null,
+    startDate:  new Date(),
     endDate: null,
     startTime: "00:00am",
     endTime: "00:00am",
@@ -197,18 +210,50 @@ const RegisterEvents = () => {
     recurrenceValue: {},
   });
   const [options, setOptions] = React.useState(timeArray);
-  const [onDate,setOnDate]=useState(null);
+  const [onDate,setOnDate]=useState("");
   const [occur,setOccur]=useState(0);
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(null);
   const userEmail = getSessionStorageOrDefault("userEmail", "");
   const userName = getSessionStorageOrDefault("userName", "");
   const [events, setEvents] = useState([]);
+  const [openEditCustom,setOpenEditCustom]=useState(false);
+  const [customEdit,setCustomEdit]=useState({
+    repeatEvery: {
+      count: 0,
+      type: "days",
+    },
+    repeatOn: {
+      sun: false,
+      mon: false,
+      tue: false,
+      wed: false,
+      thu: false,
+      fri: false,
+      sat: false,
+    },
+    ends: {
+      type: "Never",
+      value: 0,
+    },
+  });
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
+  
     setOpen(false);
+    setEvent({
+      title: "",
+      startDate: null,
+      endDate: null,
+      startTime: "00:00am",
+      endTime: "00:00am",
+      email: "",
+      description: "",
+      recurrenceType: "Doesn't repeat",
+      recurrenceValue: {},
+    });
   };
   const submit = async () => {
     console.log(event);
@@ -218,8 +263,42 @@ const RegisterEvents = () => {
       userName,
     });
     setOpen(false);
-    setEvent([]);
+    setEvent({
+      title: "",
+      startDate: null,
+      endDate: null,
+      startTime: "00:00am",
+      endTime: "00:00am",
+      email: "",
+      description: "",
+      recurrenceType: "Doesn't repeat",
+      recurrenceValue: {},
+    });
     setEvents((old) => [...old, event]);
+  };
+  const handleEditSubmit = async () => {
+    
+    setOpenEditCustom(false);
+    
+    setOpenEdit(false);
+    await axios.patch(`${API_SERVICE}/updateevent`, {
+      event:{...eventEdit,recurrenceValue:customEdit}
+    });
+    let EEvents=[...events];
+    let index=EEvents.findIndex((ele)=>ele._id===eventEdit._id);
+    EEvents[index]={...eventEdit,recurrenceValue:customEdit};
+    setEvents(EEvents);
+    setEventEdit({
+      title: "",
+      startDate: null,
+      endDate: null,
+      startTime: "00:00am",
+      endTime: "00:00am",
+      email: "",
+      description: "",
+      recurrenceType: "Doesn't repeat",
+      recurrenceValue: {},
+    });
   };
   useEffect(() => {
     const getEvent = async () => {
@@ -237,6 +316,11 @@ const RegisterEvents = () => {
       setOpenCustom(true);
     }
   }, [event.recurrenceType]);
+  useEffect(() => {
+    if (eventEdit?.recurrenceType === "Custom") {
+      setCustomEdit(eventEdit?.recurrenceValue)
+    }
+  }, [eventEdit?.recurrenceType]);
   const handleDelete=async(e)=>{
     let Events=[...events];
     const res = await axios.delete(`${API_SERVICE}/deleteevent/${e._id}`);
@@ -283,8 +367,526 @@ const RegisterEvents = () => {
       });
     }
   };
+  const handleSetDayEdit = (i) => {
+    if (i === 0) {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, sun: !customEdit?.repeatOn.sun },
+      });
+    } else if (i === 1) {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, mon: !customEdit?.repeatOn.mon },
+      });
+    } else if (i === 2) {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, tue: !customEdit?.repeatOn.tue },
+      });
+    } else if (i === 3) {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, wed: !customEdit?.repeatOn.wed },
+      });
+    } else if (i === 4) {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, thu: !customEdit?.repeatOn.thu },
+      });
+    } else if (i === 5) {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, fri: !customEdit?.repeatOn.fri },
+      });
+    } else {
+      setCustomEdit({
+        ...customEdit,
+        repeatOn: { ...customEdit?.repeatOn, sat: !customEdit?.repeatOn.sat },
+      });
+    }
+  };
+  const handleCloseEdit=()=>{
+
+    setOpenEdit(false);
+  }
+  const handleCloseEditCustom=()=>{
+    setCustomEdit(eventEdit.recurrenceValue);
+    setOpenEditCustom(false);
+  }
   return (
     <>
+     <Dialog
+        open={openEditCustom}
+        maxWidth="sm"
+        onClose={handleCloseEditCustom}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <Typography variant="h3" sx={{ m: 2, fontWeight: 300 }}>
+         Edit Custom recurrence
+        </Typography>
+
+        <DialogContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Typography variant="h4" sx={{ fontWeight: 100, mr: 10 }}>
+              Repeat Every
+            </Typography>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              value={customEdit?.repeatEvery?.count}
+              variant="outlined"
+              sx={{ borderRadius: "20px" }}
+              onChange={(e) =>
+                setCustomEdit({
+                  ...customEdit,
+                  repeatEvery: {
+                    count: (e.target.value),
+                    type: customEdit?.repeatEvery.type,
+                  },
+                })
+              }
+              type="number"
+            />
+            <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+              <Select
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                value={customEdit?.repeatEvery.type}
+                onChange={(e) =>
+                  setCustomEdit({
+                    ...customEdit,
+                    repeatEvery: {
+                      count: customEdit?.repeatEvery.count,
+                      type: e.target.value,
+                    },
+                  })
+                }
+              >
+                {items.map((val) => (
+                  <MenuItem value={val}>{val}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Typography
+              variant="h4"
+              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: "left" }}
+            >
+              Repeat On
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                mt: 3,
+                ml: 10,
+              }}
+            >
+              {["S", "M", "T", "W", "T", "F", "S"].map((ele, id) => {
+                return (
+                  <div
+                    style={
+                      !Object.entries(customEdit?.repeatOn)[id][1]
+                        ? {
+                            border: "1px solid white",
+                            borderRadius: "20px",
+                            textAlign: "center",
+                            display: "flex",
+                            cursor: "pointer",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            backgroundColor: "#f0f8ff",
+                            marginLeft: "10px",
+                            fontWeight: "600",
+                            height: "30px",
+                            width: "30px",
+                          }
+                        : {
+                            border: "1px solid white",
+                            borderRadius: "20px",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            backgroundColor: "#1e90ff",
+                            color: "white",
+                            fontWeight: "800",
+                            marginLeft: "10px",
+                            cursor: "pointer",
+                            height: "30px",
+                            width: "30px",
+                          }
+                    }
+                    key={id}
+                    onClick={() => {
+                      handleSetDayEdit(id);
+                    }}
+                  >
+                    {ele}
+                  </div>
+                );
+              })}
+            </Box>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Typography
+              variant="h4"
+              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: "left" }}
+            >
+              Ends
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                mt: 3,
+                ml: 10,
+              }}
+            >
+              <FormControl component="fieldset">
+                <RadioGroup
+                  aria-label="gender"
+                  defaultValue={customEdit?.ends.type}
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    onClick={() =>
+                      setCustomEdit({
+                        ...customEdit,
+                        ends: {
+                          type: "Never",
+                          value: null,
+                        },
+                      })
+                    }
+                    value="Never"
+                    control={<Radio />}
+                    label="Never"
+                  />
+                  <FormControlLabel
+                    onClick={() =>
+                      setCustomEdit({
+                        ...customEdit,
+                        ends: {
+                          type: "On",
+                          value:null,
+                        },
+                      })
+                    }
+                    value="On"
+                    control={<Radio />}
+                    label="On"
+                  />
+                   {customEdit?.ends.type === "On" ? (
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      value={onDate===""?customEdit?.ends.value:onDate}
+                      onChange={(e)=>setOnDate(e.target.value)}
+                      sx={{ mb: 2, width: "100%" }}
+                      type="date"
+                    />
+                  ) : null}
+                  <FormControlLabel
+                    onClick={() =>
+                      setCustomEdit({
+                        ...customEdit,
+                        ends: {
+                          type: "After",
+                          value: null,
+                        },
+                      })
+                    }
+                    value="After"
+                    control={<Radio />}
+                    label="After"
+                  />
+            
+                     {customEdit?.ends.type === "After" ? (
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      variant="outlined"
+                      label="occurrences"
+                      value={occur===0?customEdit?.ends.value:occur}
+                      onChange={(e)=>setOccur(e.target.value)}
+                      sx={{ mb: 2, width: "100%"}}
+                      type="number"
+                    />
+                  ) : null} 
+                </RadioGroup>
+              </FormControl>
+              
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button sx={{ color: "gray" }} autoFocus onClick={()=>{
+          handleCloseEditCustom();
+          }}>
+            Cancel
+          </Button>
+          <Button onClick={()=>{
+           if(customEdit?.ends.type==="On"){
+            setCustomEdit({
+              ...customEdit,
+              ends: {
+                type: customEdit?.ends.type,
+                value: onDate,
+              },
+            })
+           }
+           if(customEdit?.ends.type==="After"){
+            setCustomEdit({
+              ...customEdit,
+              ends: {
+                type: customEdit?.ends.type,
+                value: occur,
+              },
+            })
+           }
+           setOpenEditCustom(false);
+          }} autoFocus>
+            Done
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+     <Dialog
+        open={openEdit}
+        maxWidth="md"
+        fullWidth
+        onClose={handleCloseEdit}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Edit Registration</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            value={eventEdit.title}
+            fullWidth
+            onChange={(e) => setEventEdit({ ...eventEdit, title: e.target.value })}
+            label="Title"
+            sx={{ mb: 2 }}
+            type="text"
+          />
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "50%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mr: 2,
+              }}
+            >
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                value={eventEdit.startDate}
+                onChange={(e) =>{
+                  setEventEdit({ ...eventEdit, startDate: e.target.value })
+                }}
+                sx={{ mb: 2, width: "60%" }}
+                type="date"
+              />
+              <Autocomplete
+                options={options}
+                getOptionLabel={(option) => option}
+                onInputChange={(e, newValue) => {
+                  setEventEdit({ ...eventEdit, startTime: newValue });
+                }}
+                
+                value={eventEdit.startTime}
+                sx={{ width: "35%" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="standard-basic"
+                    variant="standard"
+                    onKeyDown={(e) => {
+                      if (
+                        e.key === "Enter" &&
+                        timeArray.findIndex(
+                          (o) => o.title === eventEdit.startTime
+                        ) === -1
+                      ) {
+                        setOptions((o) => o.concat(eventEdit.startTime));
+                      }
+                    }}
+                  />
+                )}
+              />
+            </Box>
+            <h3 >to</h3>
+            <Box
+              sx={{
+                width: "50%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                ml: 2,
+              }}
+            >
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                value={eventEdit.endDate}
+                onChange={(e) =>{
+                  
+                  console.log(eventEdit);
+                  setEventEdit({ ...eventEdit, endDate: e.target.value });
+                }
+                }
+                sx={{ mb: 2, width: "60%" }}
+                type="date"
+              />
+              <Autocomplete
+                options={options}
+                sx={{ width: "35%" }}
+                getOptionLabel={(option) => option}
+                onInputChange={(e, newValue) => {
+                  setEventEdit({ ...eventEdit, endTime:newValue });
+                }}
+                value={eventEdit.endTime}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="standard-basic"
+                    variant="standard"
+                    onKeyDown={(e) => {
+                      if (
+                        e.key === "Enter" &&
+                        timeArray.findIndex(
+                          (o) => o.title === eventEdit.endTime
+                        ) === -1
+                      ) {
+                        setOptions((o) => o.concat(eventEdit.endTime));
+                      }
+                    }}
+                  />
+                )}
+              />
+            </Box>
+          </Box>
+          <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+            <Select
+              labelId="demo-simple-select-filled-label"
+              id="demo-simple-select-filled"
+              value={eventEdit.recurrenceType}
+              onChange={(e) =>{
+                
+                setEventEdit({ ...eventEdit, recurrenceType: e.target.value })
+                if( e.target.value==="Custom"){
+                  setOpenEditCustom(true);
+                }
+              }
+              }
+            >
+              <MenuItem value={"Doesn't repeat"}>Doesn't repeat</MenuItem>
+              <MenuItem value={"Custom"}>Custom</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            value={eventEdit.email}
+            onChange={(e) => setEventEdit({ ...eventEdit, email: e.target.value })}
+            label="Email"
+            sx={{ mb: 2 }}
+            type="text"
+          />
+     <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            value="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af"
+            label="Attende"
+            disabled
+            sx={{ mb: 2 }}
+            type="text"
+          />
+            <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            value="https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2"
+            label="Host URL:"
+            disabled
+            sx={{ mb: 2 }}
+            type="text"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            value={eventEdit.description}
+            onChange={(e) =>
+              setEventEdit({ ...eventEdit, description: e.target.value })
+            }
+            label="Description"
+            multiline
+            rows={4}
+            sx={{ mb: 2 }}
+            type="text"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEdit} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleEditSubmit} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      
+
+
+
+
+
+
+
+
+
+
+
       <Dialog
         open={openCustom}
         maxWidth="sm"
@@ -943,6 +1545,20 @@ const RegisterEvents = () => {
                           component="span"
                         >
                           <VisibilityIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit">
+                        <IconButton
+                          color="secondary"
+                          onClick={() => {
+                            console.log(e);
+                            setEventEdit(e);
+                            setOpenEdit(true);
+                          }}
+                          aria-label="upload picture"
+                          component="span"
+                        >
+                          <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete">
