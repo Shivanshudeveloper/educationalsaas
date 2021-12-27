@@ -81,9 +81,9 @@ const Header = ({ handleLeftDrawerToggle }) => {
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
         >
           <img
-            style={{ width: "100px" }}
-            alt="logo"
-            src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1639628028/education/Evanalin_nncuqz.png"
+            src={process.env.PUBLIC_URL + "/logo.png"}
+            height="100%"
+            width="60%"
           />
         </Box>
         <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>

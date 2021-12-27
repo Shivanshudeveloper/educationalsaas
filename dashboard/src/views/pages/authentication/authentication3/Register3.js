@@ -49,7 +49,7 @@ const Register = () => {
                     }}
                   >
                     <img
-                      src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1639628028/education/Evanalin_nncuqz.png"
+                      src={process.env.PUBLIC_URL + "/logo.png"}
                       height="50%"
                       width="50%"
                     />
@@ -99,7 +99,7 @@ const Register = () => {
                     <Divider />
                   </Grid>
                   <Grid item xs={12}>
-                    {/* <Grid
+                    <Grid
                       item
                       container
                       direction="column"
@@ -114,7 +114,7 @@ const Register = () => {
                       >
                         Have an account?
                       </Typography>
-                    </Grid> */}
+                    </Grid>
                   </Grid>
                 </Grid>
               </AuthCardWrapper>

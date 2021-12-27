@@ -50,7 +50,7 @@ const Login = () => {
                     }}
                   >
                     <img
-                      src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1639628028/education/Evanalin_nncuqz.png"
+                      src={process.env.PUBLIC_URL + "/logo.png"}
                       height="50%"
                       width="50%"
                     />
@@ -107,14 +107,14 @@ const Login = () => {
                       alignItems="center"
                       xs={12}
                     >
-                      {/* <Typography
+                      <Typography
                         component={RouterLink}
                         to="/pages/register/register3"
                         variant="subtitle1"
                         sx={{ textDecoration: "none" }}
                       >
                         Don&apos;t have an account?
-                      </Typography> */}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Grid>

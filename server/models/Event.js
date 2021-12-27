@@ -22,10 +22,10 @@ const EventSchema = new mongoose.Schema({
     default:"https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2"
   },
   startDate:{
-    type:Date
+    type:String
   },
   endDate:{
-    type:Date
+    type:String
   },
   startTime:{
     type:String,

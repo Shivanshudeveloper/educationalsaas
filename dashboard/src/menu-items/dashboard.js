@@ -193,9 +193,16 @@ const dashboard = {
           type: "item",
           url: "/dashboard/others/scheduleevents",
           //   target: true,
-        }
+        },
+        {
+          id: "default66",
+          title: "Shared Recordings",
+          type: "item",
+          url: "/dashboard/others/sharedrecordings",
+          //   target: true,
+        },
       ],
-    }
+    },
   ],
 };
 

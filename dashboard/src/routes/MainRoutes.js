@@ -22,10 +22,11 @@ import TrainingList from "views/dashboard/Training/List";
 import Trainer from "views/dashboard/Training/Trainer";
 import { Navigate } from "react-router-dom";
 import ProfilePage from "views/dashboard/ProfilePage";
-import TeacherMainLayout from 'views/teacher-dashboard/TeacherMain';
+import TeacherMainLayout from "views/teacher-dashboard/TeacherMain";
 import TeacherReportsLayout from "views/teacher-dashboard/TeacherReports";
 import CloudRecording from "views/dashboard/Recording/CloudRecording";
 import RegisterEvents from "views/dashboard/Recording/RegisterEvents";
+import SharedRecordings from "views/dashboard/Recording/SharedRecordings";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -54,7 +55,7 @@ const MainRoutes = {
   path: "/",
   element: <MainLayout />,
   children: [
-    {path: "/", element: <Navigate to="/pages/login/login3" replace />},
+    { path: "/", element: <Navigate to="/pages/login/login3" replace /> },
     {
       path: "/profile",
       element: <ProfilePage />,
@@ -130,6 +131,10 @@ const MainRoutes = {
     {
       path: "/dashboard/training/report",
       element: <TrainingReport />,
+    },
+    {
+      path: "/dashboard/others/sharedrecordings",
+      element: <SharedRecordings />,
     },
     {
       path: "/dashboard/others/cloudrecording",

@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const router = express.Router();
 const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
@@ -17,6 +18,7 @@ const Form_Model = require("../models/Form");
 const Training_Model = require("../models/Training");
 const FormResponse_Model = require("../models/FormResponses");
 const Event_Model=require("../models/Event");
+const ShareRecording_Model=require('../models/SharedRecording');
 // const { findById } = require("../models/Class");
 const emailId = require("../config/keys").Email;
 const emailPassword = require("../config/keys").Password;
@@ -715,12 +717,40 @@ router.delete("/deleteevent/:id", async (req, res) => {
   try {
     const events=await Event_Model.deleteOne({_id:id})
     
-    res.status(201).send(events);
+    res.status(204).send(events);
   } catch (err) {
 
     res.send(err);
   }
 });
+// ////////////////////////////
+// Share Recordings
+// ///////////////////////////
+router.post('/recordings/shared',async(req,res)=>{
+  const {recording,shareEmail}=req.body;
+  try{
+      const newRec=new ShareRecording_Model({
+        userEmail:shareEmail,
+        recording:recording
+      });
+      await newRec.save();
+      res.status(201).send({message:"Recording Shared"});
+ 
+  }catch(err){
+    res.send(err);
+  }
+})
+router.get('/recordings/shared/:userEmail',async(req,res)=>{
+  try{
+      const recs=await ShareRecording_Model.find({
+        userEmail:req.params.userEmail
+      });
+      res.status(200).send(recs);
+ 
+  }catch(err){
+    res.send(err);
+  }
+})
 //s3 listvideos endpoint
 router.get("/listvideos/",aws_con.listVideos);
 router.get("/listvideos/:date",aws_con.listVideos);
