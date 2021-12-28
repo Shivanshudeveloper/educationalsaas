@@ -6,6 +6,7 @@ const educationUserSchema = new mongoose.Schema({
   userEmail: { type: String },
   userRole: { type: String },
   userInstitute: { type: String },
+  logo:{type:String},
   createdAt: {
     type: Date,
     default: Date.now,

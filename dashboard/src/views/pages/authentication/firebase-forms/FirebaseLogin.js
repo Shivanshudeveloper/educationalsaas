@@ -125,6 +125,7 @@ const FirebaseLogin = (props, { ...others }) => {
             sessionStorage.setItem("userName", user.displayName);
             sessionStorage.setItem("userEmail", user.email);
             sessionStorage.setItem("userId", user.uid);
+            sessionStorage.setItem("logo", user.logo);
             // navigate("", { replace: true });
             await axios
               .post(`${TEST_API_SERVICE}/getuserbyemail`, {

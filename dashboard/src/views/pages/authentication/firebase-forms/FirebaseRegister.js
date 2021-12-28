@@ -23,7 +23,7 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-
+import firebase from "../../../../Firebase/index";
 // third party
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -143,9 +143,33 @@ const FirebaseRegister = ({ ...others }) => {
   };
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
+  const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
-  console.log(formData);
+  const uploadFileAsPromise = () => {
+    return new Promise((resolve, reject) => {
+      const storage = firebase.storage();
 
+      const uploadTask = storage.ref(`logos2/${file?.name}`).put(file);
+      uploadTask.on(
+        "state_changed",
+        () => {},
+        (error) => {
+          reject(error);
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("logos2")
+            .child(file.name)
+            .getDownloadURL()
+            .then((ul) => {
+              resolve(ul);
+            });
+        }
+      );
+    });
+  };
   const register = (event) => {
     auth
       .createUserWithEmailAndPassword(formData.email, formData.password)
@@ -156,29 +180,33 @@ const FirebaseRegister = ({ ...others }) => {
         sessionStorage.setItem("userEmail", user.email);
         sessionStorage.setItem("userId", user.uid);
         sessionStorage.setItem("userRole", formData.role);
-        user
-          .updateProfile({
-            displayName: `${formData.fName} ${formData.lName}`,
-          })
-          .then(async () => {
-            const userData = {
-              userId: user.uid,
-              userName: name,
-              userEmail: user.email,
-              userRole: formData.role,
-              userInstitute: formData.institute,
-            };
-            await axios
-              .post(`${TEST_API_SERVICE}/adduser`, userData)
-              .then((res) => {
-                if (formData.role === "Teacher") {
-                  navigate("/dashboard/teacher");
-                } else {
-                  navigate("/dashboard/default");
-                }
-              })
-              .catch((err) => console.log(err));
-          });
+
+        uploadFileAsPromise().then((logourl) => {
+          user
+            .updateProfile({
+              displayName: `${formData.fName} ${formData.lName}`,
+            })
+            .then(async () => {
+              const userData = {
+                userId: user.uid,
+                userName: name,
+                userEmail: user.email,
+                userRole: formData.role,
+                userInstitute: formData.institute,
+                logo: logourl,
+              };
+              await axios
+                .post(`${TEST_API_SERVICE}/adduser`, userData)
+                .then((res) => {
+                  if (formData.role === "Teacher") {
+                    navigate("/dashboard/teacher");
+                  } else {
+                    navigate("/dashboard/default");
+                  }
+                })
+                .catch((err) => console.log(err));
+            });
+        });
 
         // navigate("/dashboard/default", { replace: true });
       })
@@ -200,7 +228,11 @@ const FirebaseRegister = ({ ...others }) => {
     }
     setOpenSnack(false);
   };
-
+  const imageChangeHandler = (e) => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+    setImageUrl(URL.createObjectURL(e.target.files[0]));
+  };
   return (
     <>
       <Snackbar
@@ -298,6 +330,23 @@ const FirebaseRegister = ({ ...others }) => {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
       </FormControl>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
+          {imageUrl !== "" ? (
+            <img src={imageUrl} alt="" width="100px" height="100px" />
+          ) : null}
+        </Box>
+        <Button variant="outlined" component="label" sx={{ mb: 3 }}>
+          Choose Image
+          <input type="file" hidden onChange={(e) => imageChangeHandler(e)} />
+        </Button>
+      </Box>
 
       <FormControl className={classes.radioInput} component="fieldset">
         <FormLabel component="legend">Select your role</FormLabel>

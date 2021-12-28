@@ -17,6 +17,8 @@ import ProfileSection from "./ProfileSection";
 import NotificationSection from "./NotificationSection";
 // assets
 import { IconMenu2 } from "@tabler/icons";
+import { getSessionStorageOrDefault } from "utils/getSessionStorageOrDefault";
+import { API_SERVICE } from "config";
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +51,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
-
+  const userid = getSessionStorageOrDefault("userId", "");
   const colorMode = localStorage.getItem("colorMode")
     ? JSON.parse(localStorage.getItem("colorMode"))
     : theme.palette.mode;
@@ -58,6 +60,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
   const toggleColorMode = () => {
     setMode(mode === "light" ? "dark" : "light");
   };
+  const [logo, setLogo] = useState("");
 
   useEffect(() => {
     const changeTheme = async () => {
@@ -71,7 +74,13 @@ const Header = ({ handleLeftDrawerToggle }) => {
 
     changeTheme();
   }, [dispatch, mode]);
-
+  useEffect(() => {
+    fetch(`${API_SERVICE}/getuser/${userid}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setLogo(res[0].logo);
+      });
+  }, [userid]);
   return (
     <>
       {/* logo & toggler button */}
@@ -80,11 +89,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
           component="span"
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
         >
-          <img
-            src={process.env.PUBLIC_URL + "/logo.png"}
-            height="100%"
-            width="60%"
-          />
+          <img src={logo} height="100px" width="100px" />
         </Box>
         <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
           <Avatar
