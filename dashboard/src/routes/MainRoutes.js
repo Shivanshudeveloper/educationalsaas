@@ -27,6 +27,7 @@ import TeacherReportsLayout from "views/teacher-dashboard/TeacherReports";
 import CloudRecording from "views/dashboard/Recording/CloudRecording";
 import RegisterEvents from "views/dashboard/Recording/RegisterEvents";
 import SharedRecordings from "views/dashboard/Recording/SharedRecordings";
+import PlansPricing from "views/dashboard/PlansPricing";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -143,6 +144,10 @@ const MainRoutes = {
     {
       path: "/dashboard/others/scheduleevents",
       element: <RegisterEvents />,
+    },
+    {
+      path: "/dashboard/others/plansandpricing",
+      element: <PlansPricing />,
     },
     {
       path: "/dashboard/training/list",
