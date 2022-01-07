@@ -20,6 +20,7 @@ const FormResponse_Model = require("../models/FormResponses");
 const Event_Model = require("../models/Event");
 const ShareRecording_Model = require("../models/SharedRecording");
 const Plans_Model = require("../models/Plans");
+var schedule=require('node-schedule');
 // const { findById } = require("../models/Class");
 const emailId = require("../config/keys").Email;
 const emailPassword = require("../config/keys").Password;
@@ -802,6 +803,7 @@ router.post("/addplan", async (req, res) => {
       email,
       type,
       price,
+      active:true
     });
     await newPlan.save();
     res.status(201).send({ message: "Plan Added" });
@@ -821,6 +823,46 @@ router.get("/getcurrentplan/:email", async (req, res) => {
     res.send(err);
   }
 });
+router.patch("/updateplan", async (req, res) => {
+  const { price, type, email } = req.body;
+
+  Plans_Model.findOneAndUpdate({email:email},{price:price,type:type,active:true},
+    { runValidators: true },(err,result)=>{
+    if(err){
+      res.send(err);
+    }else{
+      res.status(402).send({message:"Plan Updated"});
+    }
+  });
+
+
+});
+// router.delete("/deleteplan/:id", async (req, res) => {
+//   const { id} = req.params;
+
+//  const dat=await Plans_Model.deleteOne({_id:id});
+// res.send(dat);
+
+// });
+//0 0 * * *
+schedule.scheduleJob('0 0 * * *', async() => { 
+  try {
+    const data = await Plans_Model.find({});
+    for(let i=0;i<data.length;i++){
+      if(new Date(data[i].createdAt).getDate()===new Date().getDate()){
+        Plans_Model.findOneAndUpdate(
+          { _id: data[i]._id },
+          { createdAt: new Date(),active:false},
+          { runValidators: true },
+          function (err, doc) { 
+          }
+        );
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+ }) 
 //s3 listvideos endpoint
 router.get("/listvideos/", aws_con.listVideos);
 router.get("/listvideos/:date", aws_con.listVideos);

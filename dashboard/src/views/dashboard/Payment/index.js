@@ -67,7 +67,7 @@ const BootstrapDialogTitle = (props) => {
     </DialogTitle>
   );
 };
-const Payment = ({ total, type, setShowPaymentHandler }) => {
+const Payment = ({ total, type, setShowPaymentHandler, show }) => {
   const navigate = useNavigate();
   const [showPopper, setShowPopper] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState({
@@ -126,18 +126,33 @@ const Payment = ({ total, type, setShowPaymentHandler }) => {
         console.log(result);
         if (!result.err) {
           try {
-            const raw = await fetch(`${API_SERVICE}/addplan`, {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: email,
-                price: total,
-                type: type,
-              }),
-            });
+            if (show) {
+              const raw = await fetch(`${API_SERVICE}/addplan`, {
+                method: "POST",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: email,
+                  price: total,
+                  type: type,
+                }),
+              });
+            } else {
+              const raw = await fetch(`${API_SERVICE}/updateplan`, {
+                method: "PATCH",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: email,
+                  price: total,
+                  type: type,
+                }),
+              });
+            }
             handleClick();
 
             setPaySubmit(false);
@@ -243,12 +258,12 @@ const Payment = ({ total, type, setShowPaymentHandler }) => {
           backgroundColor: "background.default",
           display: "flex",
           flexDirection: "column",
-          height: "100%",
           justifyContent: "center",
+          pb: 3,
         }}
       >
         <Button
-          sx={{ alignSelf: "flex-start" }}
+          sx={{ alignSelf: "flex-start", borderRadius: 10 }}
           onClick={() => setShowPaymentHandler(false)}
         >
           <ArrowBackIcon sx={{ fontSize: "3.2em" }} />
