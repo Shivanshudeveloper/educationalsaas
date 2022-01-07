@@ -660,52 +660,57 @@ router.post("/deletetrainingteacher/:id", async (req, res) => {
 // ///////////////////////////
 router.post("/addevent", async (req, res) => {
   const { event, userEmail, userName } = req.body;
+
+  let transporter = nodemailer.createTransport({
+      host: 'evanalin.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'info@evanalin.com',
+        pass: 'bTMkH,AY+F=%'
+      }
+  });
+
+
+  let mailOptions = {
+      from: 'info@evanalin.com',
+      to: [req.body.event.email],
+      subject: 'Event Schedule',
+      text: 'Event Schedule',
+      html: `<h1>An Event ${req.body.event.title} is schedule</h1>
+            <br />
+            <h4>
+              Description: ${req.body.event.description}
+            </h4>
+            <h4>
+              <a href="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af">Click here to join</a>
+            </h4>
+            <h5>Please login to the dashboard to check the scheduled events.</h5>
+      `
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);   
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+      res.render('contact', {msg:'Email has been sent'});
+  });
+
   console.log(req.body);
   try {
     const Event = new Event_Model({ ...event, userEmail: userEmail });
     await Event.save();
 
-    //   let transporter = nodemailer.createTransport({
-    //     host: 'smtp.evanalin.com',
-    //     port: 465,
-    //     auth: {
-    //         user: 'info@evanalin.com',
-    //         pass: 'shivanshu_2021'
-    //     },
-    //     tls:{
-    //       rejectUnauthorized:false
-    //     }
-    // });
-
-    // const dateString =(new Date(event.date)).toDateString();
-
-    // let mailOptions = {
-    //     from:userEmail,
-    //     to: event.email,
-    //     subject:event.title ,
-    //     text: event.description,
-    //     html: `<div>
-    //     <h4>Date: ${dateString}</h4>
-    //     <h4>Time: ${event.time}</h4>
-    //     <h4>Meeting Link: ${event.meetingLink}</h4>
-    //     </div>
-    //     `
-    // };
-
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //     if (error) {
-    //         return console.log(error);
-    //     }
-    //     console.log('Message sent: %s', info.messageId);
-    //     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-    //     console.log(info);
-    //     res.status(201).json({ message: "Event Created and Email has been sent" });
-    // });
     res.send(Event);
   } catch (err) {
     res.send(err);
   }
 });
+
+
 router.get("/getevents/:userEmail", async (req, res) => {
   const { userEmail } = req.params;
   try {

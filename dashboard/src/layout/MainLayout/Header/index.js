@@ -78,7 +78,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
     fetch(`${API_SERVICE}/getuser/${userid}`)
       .then((res) => res.json())
       .then((res) => {
-        setLogo(res[0].logo);
+        // setLogo(res[0].logo);
       });
   }, [userid]);
   return (
@@ -89,7 +89,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
           component="span"
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
         >
-          <img src={logo} height="50px" width="100px" />
+          <img src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1641564328/education/logo_ktcj2h.png" height="50px" width="100px" />
         </Box>
         <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
           <Avatar
