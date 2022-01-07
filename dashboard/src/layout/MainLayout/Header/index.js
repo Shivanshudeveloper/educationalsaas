@@ -78,7 +78,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
     fetch(`${API_SERVICE}/getuser/${userid}`)
       .then((res) => res.json())
       .then((res) => {
-        setLogo(res[0].logo);
+        if (res[0]?.logo) setLogo(res[0]?.logo);
+        else setLogo(`${process.env.PUBLIC_URL}/logo.png`);
       });
   }, [userid]);
   return (
