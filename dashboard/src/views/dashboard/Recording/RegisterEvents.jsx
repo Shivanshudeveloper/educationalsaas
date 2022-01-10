@@ -161,6 +161,21 @@ const timeArray = [
   "11:30pm",
   "11:45pm",
 ];
+const meetingURL=[{
+  Attende:"https://evaliain-video.vercel.app/6046ecb6-25de-4d8d-be4a-e6459d3477d4",
+  hostURL:"https://evaliain-video.vercel.app/5dff2a12-811a-4e64-bb27-1c5f23711ac3"
+},{
+  Attende:"https://evaliain-video.vercel.app/807407b7-6242-4fa3-b73e-986d90e0aadb",
+  hostURL:"https://evaliain-video.vercel.app/03984719-865c-4680-9ba9-1d2f871b7494"
+},
+{
+  Attende:"https://evaliain-video.vercel.app/b2acc357-5c2e-41b7-8a14-bc3d9c6e341c",
+  hostURL:"https://evaliain-video.vercel.app/6d4eaa51-70c1-4f7a-b99e-7317d6032f55"
+},
+{
+  Attende:"https://evaliain-video.vercel.app/e8b8571d-c9b8-4696-9db9-b2970a4f5ca0",
+  hostURL:"https://evaliain-video.vercel.app/8ca9dd97-10a1-4647-8ab0-456284d4a122"
+}]
 const items = ["days", "weeks", "years", "months"];
 const RegisterEvents = () => {
   const [open, setOpen] = useState(false);
@@ -208,6 +223,8 @@ const RegisterEvents = () => {
     description: "",
     recurrenceType: "Doesn't repeat",
     recurrenceValue: {},
+    Attende:"",
+    hostUrl:""
   });
   const [options, setOptions] = React.useState(timeArray);
   const [onDate,setOnDate]=useState("");
@@ -218,6 +235,7 @@ const RegisterEvents = () => {
   const userName = getSessionStorageOrDefault("userName", "");
   const [events, setEvents] = useState([]);
   const [openEditCustom,setOpenEditCustom]=useState(false);
+  const [randomNumber,setRandomNumber]=useState(0);
   const [customEdit,setCustomEdit]=useState({
     repeatEvery: {
       count: 0,
@@ -238,6 +256,7 @@ const RegisterEvents = () => {
     },
   });
   const handleClickOpen = () => {
+    setRandomNumber(Math.floor(Math.random()*4));
     setOpen(true);
   };
   const handleClose = () => {
@@ -253,12 +272,15 @@ const RegisterEvents = () => {
       description: "",
       recurrenceType: "Doesn't repeat",
       recurrenceValue: {},
+      Attende:"",
+    hostUrl:""
     });
   };
   const submit = async () => {
     console.log(event);
     await axios.post(`${API_SERVICE}/addevent`, {
-      event:{...event,recurrenceValue:custom},
+      event:{...event,recurrenceValue:custom,Attende:meetingURL[randomNumber].Attende,
+      hostUrl:meetingURL[randomNumber].hostURL},
       userEmail,
       userName,
     });
@@ -273,8 +295,11 @@ const RegisterEvents = () => {
       description: "",
       recurrenceType: "Doesn't repeat",
       recurrenceValue: {},
+      Attende:"",
+    hostUrl:""
     });
-    setEvents((old) => [...old, event]);
+    setEvents((old) => [...old, {...event,Attende:meetingURL[randomNumber].Attende,
+      hostUrl:meetingURL[randomNumber].hostURL}]);
   };
   const handleEditSubmit = async () => {
     
@@ -675,7 +700,7 @@ const RegisterEvents = () => {
         onClose={handleCloseEdit}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Edit Registration</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Event</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -832,7 +857,8 @@ const RegisterEvents = () => {
             margin="dense"
             id="name"
             fullWidth
-            value="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af"
+            value={eventEdit.Attende}
+
             label="Attende"
             disabled
             sx={{ mb: 2 }}
@@ -843,7 +869,8 @@ const RegisterEvents = () => {
             margin="dense"
             id="name"
             fullWidth
-            value="https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2"
+            value={eventEdit.hostUrl}
+        
             label="Host URL:"
             disabled
             sx={{ mb: 2 }}
@@ -1148,7 +1175,7 @@ const RegisterEvents = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Registration</DialogTitle>
+        <DialogTitle id="form-dialog-title">Create Event</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -1292,7 +1319,8 @@ const RegisterEvents = () => {
             margin="dense"
             id="name"
             fullWidth
-            value="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af"
+            value={meetingURL[randomNumber].Attende}
+            onChange={(e)=>setEvent({...event,Attende:e.target.value})}
             label="Attende"
             disabled
             sx={{ mb: 2 }}
@@ -1303,7 +1331,8 @@ const RegisterEvents = () => {
             margin="dense"
             id="name"
             fullWidth
-            value="https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2"
+            value={meetingURL[randomNumber].hostURL}
+            onChange={(e)=>setEvent({...event,hostUrl:e.target.value})}
             label="Host URL:"
             disabled
             sx={{ mb: 2 }}
@@ -1457,7 +1486,8 @@ const RegisterEvents = () => {
             margin="dense"
             id="name"
             fullWidth
-            value="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af"
+            value={selected?.Attende}
+   
             label="Attende"
             disabled
             sx={{ mb: 2 }}
@@ -1468,7 +1498,8 @@ const RegisterEvents = () => {
             margin="dense"
             id="name"
             fullWidth
-            value="https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2"
+            value={selected?.hostUrl}
+           
             label="Host URL:"
             disabled
             sx={{ mb: 2 }}

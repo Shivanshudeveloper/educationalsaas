@@ -89,7 +89,11 @@ const Header = ({ handleLeftDrawerToggle }) => {
           component="span"
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
         >
-          <img src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1641564328/education/logo_ktcj2h.png" height="50px" width="100px" />
+          <img
+            src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1641564328/education/logo_ktcj2h.png"
+            height="50px"
+            width="100px"
+          />
         </Box>
         <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
           <Avatar
@@ -111,7 +115,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       {/* toggle between light and dark mode */}
 
       <IconButton
-        href="https://whiteboardprod.vercel.app/"
+        href="https://whiteboard.evanalin.com/"
         target="_blank"
         sx={{ mr: 1 }}
         color="inherit"

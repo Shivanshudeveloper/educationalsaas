@@ -187,13 +187,13 @@ const dashboard = {
           url: "/dashboard/others/cloudrecording",
           //   target: true,
         },
-        {
-          id: "default67",
-          title: "Plans & Pricing",
-          type: "item",
-          url: "/dashboard/others/plansandpricing",
-          //   target: true,
-        },
+        // {
+        //   id: "default67",
+        //   title: "Plans & Pricing",
+        //   type: "item",
+        //   url: "/dashboard/others/plansandpricing",
+        //   //   target: true,
+        // },
         {
           id: "default65",
           title: "Schedule Events",
