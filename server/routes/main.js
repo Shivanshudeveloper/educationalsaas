@@ -667,14 +667,14 @@ router.post("/addevent", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: 'info@evanalin.com',
-        pass: 'bTMkH,AY+F=%'
+        user: 'sendinvite@evanalin.com',
+        pass: 'f[}4eq-KoFrH'
       }
   });
 
 
   let mailOptions = {
-      from: 'info@evanalin.com',
+      from: 'sendinvite@evanalin.com',
       to: [req.body.event.email],
       subject: 'Event Schedule',
       text: 'Event Schedule',
