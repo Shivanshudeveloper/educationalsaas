@@ -36,7 +36,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import CloseIcon from "@material-ui/icons/Close";
 import Google from "assets/images/icons/social-google.svg";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../../../Firebase/index";
 import { WindowSharp } from "@material-ui/icons";
 import { isWindows } from "react-device-detect";
