@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const path = require("path");
 const mongoose = require("mongoose");
 const colors = require("colors");
@@ -22,7 +23,6 @@ app.use(express.json());
 
 // Routing for API Service
 app.use("/api/v1/main", main);
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, console.log(`Server running on port ${PORT}`.yellow.bold));

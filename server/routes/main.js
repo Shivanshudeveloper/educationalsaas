@@ -4,6 +4,10 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
 const aws_con = require("../controllers/aws_s3");
+
+// SendGrid
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(require("../config/keys").SENDGRID_API_KEY);
 // Getting Module
 
 const Appt_Model = require("../models/Appointment");
@@ -20,7 +24,7 @@ const FormResponse_Model = require("../models/FormResponses");
 const Event_Model = require("../models/Event");
 const ShareRecording_Model = require("../models/SharedRecording");
 const Plans_Model = require("../models/Plans");
-var schedule=require('node-schedule');
+var schedule = require("node-schedule");
 // const { findById } = require("../models/Class");
 const emailId = require("../config/keys").Email;
 const emailPassword = require("../config/keys").Password;
@@ -42,27 +46,47 @@ router.post("/saveappt", async (req, res) => {
     const observer = await Observer_Model.findById(appData.observerId);
     await newUser.save();
 
-    try {
-      (transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: emailId,
-          pass: emailPassword,
-        },
-      })),
-        (mailOption = {
-          from: emailId,
-          to: appData?.teacherData[0]?.Email,
-          subject: "Appointment Booked",
-          html: `Appointment booked by ${observer.name} for ${appData.apptDate}<br />${appData.note}`,
-        }),
-        transporter.sendMail(mailOption, (err, data) => {
-          console.log("Email Sent!");
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    res.status(201).json({ message: "New Appointment Created" });
+    // try {
+    //   (transporter = nodemailer.createTransport({
+    //     service: "gmail",
+    //     auth: {
+    //       user: emailId,
+    //       pass: emailPassword,
+    //     },
+    //   })),
+    //     (mailOption = {
+    //       from: emailId,
+    //       to: appData?.teacherData[0]?.Email,
+    //       subject: "Appointment Booked",
+    //       html: `Appointment booked by ${observer.name} for ${appData.apptDate}<br />${appData.note}`,
+    //     }),
+    //     transporter.sendMail(mailOption, (err, data) => {
+    //       console.log("Email Sent!");
+    //     });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    // Mail using send grid
+    const msg = {
+      to: appData?.teacherData[0]?.Email, // Change to your recipient
+      from: emailId, // Change to your verified sender
+      subject: "Appointment Booked",
+      html: `Appointment booked by ${observer.name} for ${appData.apptDate}<br />${appData.note}`,
+    };
+
+    sgMail
+      .send(msg)
+      .then((response) => {
+        console.log(response[0].statusCode);
+        console.log(response[0].headers);
+        console.log("Email Sent!");
+        return res.status(201).json({ message: "New Appointment Created" });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    res.status(500).json({ message: "Server Error" });
   } catch (error) {
     res.status(404).json({ message: "Error" });
   }
@@ -661,44 +685,74 @@ router.post("/deletetrainingteacher/:id", async (req, res) => {
 // ///////////////////////////
 router.post("/addevent", async (req, res) => {
   const { event, userEmail, userName } = req.body;
+  console.log(userEmail);
 
-  let transporter = nodemailer.createTransport({
-      host: 'evanalin.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'sendinvite@evanalin.com',
-        pass: 'f[}4eq-KoFrH'
-      }
-  });
+  // Using nodemailer to send email
+  // let transporter = nodemailer.createTransport({
+  //   host: "evanalin.com",
+  //   port: 465,
+  //   secure: true,
+  //   auth: {
+  //     user: "sendinvite@evanalin.com",
+  //     pass: "f[}4eq-KoFrH",
+  //   },
+  // });
 
+  // let mailOptions = {
+  //   from: "sendinvite@evanalin.com",
+  //   to: [req.body.event.email],
+  //   subject: "Event Schedule",
+  //   text: "Event Schedule",
+  //   html: `<h1>An Event ${req.body.event.title} is schedule</h1>
+  //           <br />
+  //           <h4>
+  //             Description: ${req.body.event.description}
+  //           </h4>
+  //           <h4>
+  //             <a href="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af">Click here to join</a>
+  //           </h4>
+  //           <h5>Please login to the dashboard to check the scheduled events.</h5>
+  //     `,
+  // };
 
-  let mailOptions = {
-      from: 'sendinvite@evanalin.com',
-      to: [req.body.event.email],
-      subject: 'Event Schedule',
-      text: 'Event Schedule',
-      html: `<h1>An Event ${req.body.event.title} is schedule</h1>
-            <br />
-            <h4>
-              Description: ${req.body.event.description}
-            </h4>
-            <h4>
-              <a href="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af">Click here to join</a>
-            </h4>
-            <h5>Please login to the dashboard to check the scheduled events.</h5>
-      `
+  // transporter.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //     return console.log(error);
+  //   }
+  //   console.log("Message sent: %s", info.messageId);
+  //   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+  //   res.render("contact", { msg: "Email has been sent" });
+  // });
+
+  // Mail using sendgrid
+  const msg = {
+    // to: [req.body.event.email], // Change to your recipient
+    to: [req.body.event.email],
+    from: "sendinvite@evanalin.com", // Change to your verified sender
+    subject: "Event Schedule",
+    text: "Event Schedule",
+    html: `<h1>An Event ${req.body.event.title} is schedule</h1>
+               <br />
+               <h4>
+                 Description: ${req.body.event.description}
+               </h4>
+               <h4>
+                 <a href="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af">Click here to join</a>
+               </h4>
+               <h5>Please login to the dashboard to check the scheduled events.</h5>
+         `,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-          return console.log(error);
-      }
-      console.log('Message sent: %s', info.messageId);   
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-      res.render('contact', {msg:'Email has been sent'});
-  });
+  sgMail
+    .send(msg)
+    .then((response) => {
+      console.log(response[0].statusCode);
+      console.log(response[0].headers);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   console.log(req.body);
   try {
@@ -710,7 +764,6 @@ router.post("/addevent", async (req, res) => {
     res.send(err);
   }
 });
-
 
 router.get("/getevents/:userEmail", async (req, res) => {
   const { userEmail } = req.params;
@@ -808,7 +861,7 @@ router.post("/addplan", async (req, res) => {
       email,
       type,
       price,
-      active:true
+      active: true,
     });
     await newPlan.save();
     res.status(201).send({ message: "Plan Added" });
@@ -831,16 +884,18 @@ router.get("/getcurrentplan/:email", async (req, res) => {
 router.patch("/updateplan", async (req, res) => {
   const { price, type, email } = req.body;
 
-  Plans_Model.findOneAndUpdate({email:email},{price:price,type:type,active:true},
-    { runValidators: true },(err,result)=>{
-    if(err){
-      res.send(err);
-    }else{
-      res.status(402).send({message:"Plan Updated"});
+  Plans_Model.findOneAndUpdate(
+    { email: email },
+    { price: price, type: type, active: true },
+    { runValidators: true },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.status(402).send({ message: "Plan Updated" });
+      }
     }
-  });
-
-
+  );
 });
 // router.delete("/deleteplan/:id", async (req, res) => {
 //   const { id} = req.params;
@@ -850,24 +905,23 @@ router.patch("/updateplan", async (req, res) => {
 
 // });
 //0 0 * * *
-schedule.scheduleJob('0 0 * * *', async() => { 
+schedule.scheduleJob("0 0 * * *", async () => {
   try {
     const data = await Plans_Model.find({});
-    for(let i=0;i<data.length;i++){
-      if(new Date(data[i].createdAt).getDate()===new Date().getDate()){
+    for (let i = 0; i < data.length; i++) {
+      if (new Date(data[i].createdAt).getDate() === new Date().getDate()) {
         Plans_Model.findOneAndUpdate(
           { _id: data[i]._id },
-          { createdAt: new Date(),active:false},
+          { createdAt: new Date(), active: false },
           { runValidators: true },
-          function (err, doc) { 
-          }
+          function (err, doc) {}
         );
       }
     }
   } catch (err) {
     console.log(err);
   }
- }) 
+});
 //s3 listvideos endpoint
 router.get("/listvideos/", aws_con.listVideos);
 router.get("/listvideos/:date", aws_con.listVideos);
