@@ -24,6 +24,8 @@ import { Navigate } from "react-router-dom";
 import ProfilePage from "views/dashboard/ProfilePage";
 import TeacherMainLayout from "views/teacher-dashboard/TeacherMain";
 import TeacherReportsLayout from "views/teacher-dashboard/TeacherReports";
+// import TeacherMainLayout from "views/dashboard/Teachers/List";
+// import TeacherReportsLayout from "views/dashboard/Teachers/Reports";
 import CloudRecording from "views/dashboard/Recording/CloudRecording";
 import RegisterEvents from "views/dashboard/Recording/RegisterEvents";
 import SharedRecordings from "views/dashboard/Recording/SharedRecordings";

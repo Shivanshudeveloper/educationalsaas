@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {TEST_API_SERVICE} from "../../../config";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   TableContainer,
