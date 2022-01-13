@@ -4,7 +4,7 @@ module.exports = {
   Email: "evencloudupload@gmail.com",
   Password: "Evencloud@1234",
   SENDGRID_API_KEY:
-    "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",
+    "PLEASE USE ENV FILE FOR THIS",
 };
 
 // module.exports = {
