@@ -685,8 +685,6 @@ router.post("/deletetrainingteacher/:id", async (req, res) => {
 // ///////////////////////////
 router.post("/addevent", async (req, res) => {
   const { event, userEmail, userName } = req.body;
-  console.log(userEmail);
-
   // Using nodemailer to send email
   // let transporter = nodemailer.createTransport({
   //   host: "evanalin.com",
@@ -726,39 +724,37 @@ router.post("/addevent", async (req, res) => {
   // });
 
   // Mail using sendgrid
-  const msg = {
-    // to: [req.body.event.email], // Change to your recipient
-    to: [req.body.event.email],
-    from: "sendinvite@evanalin.com", // Change to your verified sender
-    subject: "Event Schedule",
-    text: "Event Schedule",
-    html: `<h1>An Event ${req.body.event.title} is schedule</h1>
-               <br />
-               <h4>
-                 Description: ${req.body.event.description}
-               </h4>
-               <h4>
-                 <a href="https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af">Click here to join</a>
-               </h4>
-               <h5>Please login to the dashboard to check the scheduled events.</h5>
-         `,
-  };
-
-  sgMail
-    .send(msg)
-    .then((response) => {
-      console.log(response[0].statusCode);
-      console.log(response[0].headers);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
-  console.log(req.body);
   try {
     const Event = new Event_Model({ ...event, userEmail: userEmail });
     await Event.save();
+    const msg = {
+      // to: [req.body.event.email], // Change to your recipient
+      to: [req.body.event.email],
+      from: "sendinvite@evanalin.com", // Change to your verified sender
+      subject: "Event Schedule",
+      text: "Event Schedule",
+      html: `<h1>An Event ${req.body.event.title} is schedule</h1>
+                 <br />
+                 <h4>
+                   Description: ${req.body.event.description}
+                 </h4>
+                 <h4>
+                   <a href=${Event.Attende}>Click here to join</a>
+                 </h4>
+                 <h5>Please login to the dashboard to check the scheduled events.</h5>
+           `,
+    };
 
+    sgMail
+      .send(msg)
+      .then((response) => {
+        console.log("Emailed Sent");
+        // console.log(response[0].statusCode);
+        // console.log(response[0].headers);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     res.send(Event);
   } catch (err) {
     res.send(err);
@@ -925,4 +921,32 @@ schedule.scheduleJob("0 0 * * *", async () => {
 //s3 listvideos endpoint
 router.get("/listvideos/", aws_con.listVideos);
 router.get("/listvideos/:date", aws_con.listVideos);
+
+// ATTENDANCE ROUTES
+router.post("/attendance/clock-in", (req, res) => {
+  const { id } = res.body;
+  try {
+    const newAttende = new Attendance({
+      userId: id,
+    });
+    await newAttende.save();
+    res.status(201).send({ message: "Attende Joinned In", newAttende });
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+router.post("/attendance/clock-out", (req, res) => {
+  const { id } = res.body;
+  try {
+    const attende = new Attendance({
+      userId: id,
+    });
+    await attende.save();
+    res.status(201).send({ message: "Attende Left", attende });
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 module.exports = router;
