@@ -208,6 +208,13 @@ const dashboard = {
           url: "/dashboard/others/sharedrecordings",
           //   target: true,
         },
+        {
+          id: "default67",
+          title: "Attendance",
+          type: "item",
+          url: "/dashboard/others/attendance",
+          //   target: true,
+        },
       ],
     },
   ],

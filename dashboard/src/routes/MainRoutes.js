@@ -30,6 +30,8 @@ import CloudRecording from "views/dashboard/Recording/CloudRecording";
 import RegisterEvents from "views/dashboard/Recording/RegisterEvents";
 import SharedRecordings from "views/dashboard/Recording/SharedRecordings";
 import PlansPricing from "views/dashboard/PlansPricing";
+import Attendance from "views/dashboard/Others/Attendance";
+import AttendeMeeting from "views/pages/AttendeMeeting";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -146,6 +148,10 @@ const MainRoutes = {
     {
       path: "/dashboard/others/scheduleevents",
       element: <RegisterEvents />,
+    },
+    {
+      path: "/dashboard/others/attendance",
+      element: <Attendance />,
     },
     {
       path: "/dashboard/others/plansandpricing",
