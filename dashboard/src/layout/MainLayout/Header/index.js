@@ -79,7 +79,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
       .then((res) => res.json())
       .then((res) => {
         // setLogo(res[0].logo);
-      });
+      })
+      .catch((err) => console.log(err));
   }, [userid]);
   return (
     <>

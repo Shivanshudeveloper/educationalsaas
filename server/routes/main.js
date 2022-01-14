@@ -4,10 +4,11 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
 const aws_con = require("../controllers/aws_s3");
+require("dotenv").config();
 
 // SendGrid
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(require("../config/keys").SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // Getting Module
 
 const Appt_Model = require("../models/Appointment");
@@ -24,6 +25,8 @@ const FormResponse_Model = require("../models/FormResponses");
 const Event_Model = require("../models/Event");
 const ShareRecording_Model = require("../models/SharedRecording");
 const Plans_Model = require("../models/Plans");
+const Attendee_Model = require("../models/Attendee");
+
 var schedule = require("node-schedule");
 // const { findById } = require("../models/Class");
 const emailId = require("../config/keys").Email;
@@ -923,10 +926,16 @@ router.get("/listvideos/", aws_con.listVideos);
 router.get("/listvideos/:date", aws_con.listVideos);
 
 // ATTENDANCE ROUTES
-router.post("/attendance/clock-in", (req, res) => {
-  const { id } = res.body;
+router.post("/attendance/clock-in", async (req, res) => {
+  const { id } = req.body;
+  // const isStudentAlreadyPresent = await Attendee_Model.findOne({ userId: id });
+  // if (isStudentAlreadyPresent)
+  //   return res.status(201).send({
+  //     message:
+  //       "Student is already present in meeting. Kindly clock out before joining again. ",
+  //   });
   try {
-    const newAttende = new Attendance({
+    const newAttende = new Attendee_Model({
       userId: id,
     });
     await newAttende.save();
@@ -936,14 +945,37 @@ router.post("/attendance/clock-in", (req, res) => {
   }
 });
 
-router.post("/attendance/clock-out", (req, res) => {
-  const { id } = res.body;
-  try {
-    const attende = new Attendance({
-      userId: id,
+router.patch("/attendance/clock-out", async (req, res) => {
+  const { id } = req.body;
+  const isStudentPresent = await Attendee_Model.findOne({ userId: id });
+  if (!isStudentPresent)
+    return res.status(201).send({
+      message: "Student is absent in meeting. Kindly clock in. ",
     });
-    await attende.save();
-    res.status(201).send({ message: "Attende Left", attende });
+  try {
+    const query = { userId: id };
+    const attende = await Attendee_Model.findOneAndUpdate(
+      query,
+      {
+        clockOutTime: Date.now(),
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).send({ message: "Attende Left", attende });
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+router.get("/attendance", async (req, res) => {
+  try {
+    const attendes = await Attendee_Model.find().sort({
+      clockInTime: "desc",
+    });
+    res.status(200).send({ attendes });
   } catch (err) {
     res.send(err);
   }

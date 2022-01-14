@@ -7,11 +7,11 @@ const config = {
   borderRadius: 12,
 };
 
-export const API_SERVICE = "https://educationsaasapi.herokuapp.com/api/v1/main";
-export const TEST_API_SERVICE =
-  "https://educationsaasapi.herokuapp.com/api/v1/main";
+// export const API_SERVICE = "https://educationsaasapi.herokuapp.com/api/v1/main";
+// export const TEST_API_SERVICE =
+//   "https://educationsaasapi.herokuapp.com/api/v1/main";
 
-// export const TEST_API_SERVICE = "http://localhost:8080/api/v1/main";
-// export const API_SERVICE = "http://localhost:8080/api/v1/main";
+export const TEST_API_SERVICE = "http://localhost:8080/api/v1/main";
+export const API_SERVICE = "http://localhost:8080/api/v1/main";
 
 export default config;
