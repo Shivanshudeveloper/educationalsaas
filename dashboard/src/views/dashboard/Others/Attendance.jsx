@@ -23,7 +23,7 @@ const Attendance = () => {
   const [attendance, setAttendance] = React.useState([]);
 
   const getAttendance = () => {
-    console.log(`${API_SERVICE}/attendance`);
+    // console.log(`${API_SERVICE}/attendance`);
     axios
       .get(`${API_SERVICE}/attendance`)
       .then((res) => setAttendance(res.data.attendes))
@@ -32,7 +32,7 @@ const Attendance = () => {
   React.useEffect(() => {
     getAttendance();
   }, []);
-  console.log(attendance);
+  // console.log(attendance);
 
   const getDate = (time) => {
     var d = new Date(time);
@@ -70,6 +70,28 @@ const Attendance = () => {
     return msToTime(difference);
   };
 
+  const deleteRecord = (_id) => {
+    console.log("In delete record");
+    const updatedAttendance = attendance.filter((record) =>
+      console.log(record)
+    );
+    setAttendance(updatedAttendance);
+  };
+
+  const handleDelete = ({ userId, clockInTime, _id }) => {
+    console.log(_id);
+    axios
+      .delete(`${API_SERVICE}/attendance/delete-record`, {
+        data: {
+          _id,
+          userId,
+          clockInTime,
+        },
+      })
+      .then(deleteRecord(_id))
+      .catch((err) => console.error(err));
+  };
+
   return (
     <TableContainer sx={{ mt: 4 }} component={Paper}>
       <Table aria-label="simple table">
@@ -105,7 +127,7 @@ const Attendance = () => {
                   <IconButton
                     color="secondary"
                     onClick={() => {
-                      //handleDelete(e);
+                      handleDelete(attende);
                     }}
                     aria-label="upload picture"
                     component="span"

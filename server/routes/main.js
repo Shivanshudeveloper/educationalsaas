@@ -937,6 +937,7 @@ router.post("/attendance/clock-in", async (req, res) => {
   try {
     const newAttende = new Attendee_Model({
       userId: id,
+      clockInTime: Date.now(),
     });
     await newAttende.save();
     res.status(201).send({ message: "Attende Joinned In", newAttende });
@@ -967,6 +968,16 @@ router.patch("/attendance/clock-out", async (req, res) => {
     res.status(200).send({ message: "Attende Left", attende });
   } catch (err) {
     res.send(err);
+  }
+});
+
+router.delete("/attendance/delete-record", async (req, res) => {
+  console.log(req.body);
+  try {
+    const deletedUser = await Attendee_Model.deleteOne(req.body);
+    // console.log(deletedUser);
+  } catch (error) {
+    res.status(500).send({ message: "Server Error" });
   }
 });
 

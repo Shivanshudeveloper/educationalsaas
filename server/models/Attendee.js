@@ -7,7 +7,7 @@ const attendeeSchema = new mongoose.Schema({
   },
   clockInTime: {
     type: Date,
-    default: Date.now(),
+    // default: Date.now(),
   },
   isClockedIn: {
     type: Boolean,
