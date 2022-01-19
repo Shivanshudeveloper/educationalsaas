@@ -17,6 +17,9 @@ import AuthWrapper1 from "../AuthWrapper1";
 import AuthCardWrapper from "../AuthCardWrapper";
 import FirebaseLogin from "../firebase-forms/FirebaseLogin";
 import AuthFooter from "ui-component/cards/AuthFooter";
+import FirebaseGoogleLogin from "../firebase-forms/FirebaseGoogleLogin";
+import FirebaseFacebookLogin from "../firebase-forms/FirebaseFacebookLogin";
+import FirebaseTwitterLogin from "../firebase-forms/FirebaseTwitterLogin";
 
 // assets
 
@@ -97,9 +100,17 @@ const Login = () => {
                     <FirebaseLogin login={3} />
                   </Grid>
                   <Grid item xs={12}>
-                    <Divider />
+                    <Divider>OR</Divider>
                   </Grid>
-               
+                  <Grid item xs={12}>
+                    <FirebaseGoogleLogin />
+                  </Grid>
+                  {/* <Grid item xs={12}>
+                    <FirebaseFacebookLogin />
+                  </Grid> */}
+                  <Grid item xs={12}>
+                    <FirebaseTwitterLogin />
+                  </Grid>
                 </Grid>
               </AuthCardWrapper>
             </Grid>

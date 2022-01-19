@@ -142,7 +142,7 @@ const FirebaseLogin = (props, { ...others }) => {
                   if (formData.password === default_password) {
                     navigate("/pages/forgot-password/forgot-password3");
                   } else {
-                    navigate("/dashboard/teacher");
+                    navigate("/dashboard/default");
                   }
                 } else {
                   navigate("/dashboard/default");

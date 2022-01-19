@@ -1,6 +1,6 @@
 import Sidebar from './Sidebar';
 import {useDispatch, useSelector} from "react-redux";
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import {SET_MENU} from "store/actions";
 import Button from "@mui/material/Button";
 
