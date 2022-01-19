@@ -72,9 +72,7 @@ const Attendance = () => {
 
   const deleteRecord = (_id) => {
     console.log("In delete record");
-    const updatedAttendance = attendance.filter((record) =>
-      console.log(record)
-    );
+    const updatedAttendance = attendance.filter((record) => record._id != _id);
     setAttendance(updatedAttendance);
   };
 
