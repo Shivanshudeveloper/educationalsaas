@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import {
   Tooltip,
   IconButton,
@@ -18,28 +18,28 @@ import {
   Alert,
   CircularProgress,
   Box,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import DownloadIcon from "@material-ui/icons/Download";
-import ShareIcon from "@material-ui/icons/Share";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import { API_SERVICE } from "config";
-import axios from "axios";
-import { getSessionStorageOrDefault } from "utils/getSessionStorageOrDefault";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import DownloadIcon from '@material-ui/icons/Download';
+import ShareIcon from '@material-ui/icons/Share';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import { API_SERVICE } from 'config';
+import axios from 'axios';
+import { getSessionStorageOrDefault } from 'utils/getSessionStorageOrDefault';
 const CloudRecording = () => {
   const [open, setOpen] = React.useState(false);
   const [recordings, setRecordings] = React.useState([]);
   const [openShare, setOpenShare] = React.useState(false);
   const [selectedRecording, setSelectedRecording] = React.useState(null);
-  const [shareWithEmail, setShareWithEmail] = React.useState("");
-  const [alert, setAlert] = useState({ error: false, message: "" });
-  const userEmail = getSessionStorageOrDefault("userEmail", "");
+  const [shareWithEmail, setShareWithEmail] = React.useState('');
+  const [alert, setAlert] = useState({ error: false, message: '' });
+  const userEmail = getSessionStorageOrDefault('userEmail', '');
   const [loading, setLoading] = useState(true);
   const [openSnack, setOpenSnack] = React.useState(false);
   const handleClickOpen = () => {
@@ -53,8 +53,8 @@ const CloudRecording = () => {
     setOpenShare(false);
   };
   const handleShare = async () => {
-    if (shareWithEmail === "" || selectedRecording === null) {
-      setAlert({ error: true, message: "Something went wrong" });
+    if (shareWithEmail === '' || selectedRecording === null) {
+      setAlert({ error: true, message: 'Something went wrong' });
       setSelectedRecording(null);
       setOpenShare(false);
       setOpenSnack(true);
@@ -66,9 +66,9 @@ const CloudRecording = () => {
     setOpenShare(false);
     setAlert({
       error: false,
-      message: `Shared With ${shareWithEmail.split("@")[0]}`,
+      message: `Shared With ${shareWithEmail.split('@')[0]}`,
     });
-    setShareWithEmail("");
+    setShareWithEmail('');
     setSelectedRecording(null);
     setOpenSnack(true);
   };
@@ -92,14 +92,14 @@ const CloudRecording = () => {
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             value={shareWithEmail}
             onChange={(e) => setShareWithEmail(e.target.value)}
-            label="Email Address"
-            type="email"
+            label='Email Address'
+            type='email'
             fullWidth
-            variant="standard"
+            variant='standard'
           />
         </DialogContent>
         <DialogActions>
@@ -110,27 +110,27 @@ const CloudRecording = () => {
       <Dialog
         open={open}
         fullWidth
-        maxWidth="sm"
+        maxWidth='sm'
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id="form-dialog-title">Reservation</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Reservation</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             fullWidth
-            label="Table Number"
-            type="number"
+            label='Table Number'
+            type='number'
             fullWidth
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             Submit
           </Button>
         </DialogActions>
@@ -138,42 +138,45 @@ const CloudRecording = () => {
 
       <Container>
         <TableContainer sx={{ mt: 4 }} component={Paper}>
-          <Table aria-label="simple table">
+          <Table aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Slno</TableCell>
-                <TableCell align="center">Date</TableCell>
-                <TableCell align="center">Actions</TableCell>
+                <TableCell align='left'>Meeting Title</TableCell>
+                <TableCell align='center'>Date</TableCell>
+                <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {recordings.map((recording, id) => {
+                // console.log(recording);
                 return (
                   <TableRow key={id + 1}>
-                    <TableCell component="th" scope="row">
+                    <TableCell component='th' scope='row'>
                       {id + 1}
                     </TableCell>
-                    <TableCell align="center">
-                      {new Date().toDateString()}
+                    <TableCell align='left'>{recording.folderName}</TableCell>
+                    <TableCell align='center'>
+                      {new Date(recording.createdDate).toDateString()}
                     </TableCell>
-                    <TableCell align="center">
-                      <Tooltip title="Download">
+                    <TableCell align='center'>
+                      <Tooltip title='Download'>
                         <IconButton
-                          color="primary"
+                          color='primary'
                           href={recording.videoUrl}
-                          target="_blank"
+                          target='_blank'
                         >
                           <DownloadIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Share">
+                      <Tooltip title='Share'>
                         <IconButton
                           onClick={() => {
                             setSelectedRecording(recording);
                             setOpenShare(true);
                           }}
-                          color="secondary"
-                          target="_blank"
+                          color='secondary'
+                          target='_blank'
                         >
                           <ShareIcon />
                         </IconButton>
@@ -185,7 +188,7 @@ const CloudRecording = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           {loading ? <CircularProgress /> : null}
         </Box>
       </Container>
@@ -196,8 +199,8 @@ const CloudRecording = () => {
       >
         <Alert
           onClose={() => setOpenSnack(false)}
-          severity={alert.error ? "error" : "success"}
-          sx={{ width: "100%" }}
+          severity={alert.error ? 'error' : 'success'}
+          sx={{ width: '100%' }}
         >
           {alert.message}
         </Alert>
