@@ -27,6 +27,8 @@ import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import { auth } from '../../../../Firebase/index';
+
 // assets
 
 //= ===============================|| AUTH3 - LOGIN ||================================//
@@ -37,6 +39,7 @@ const Login = () => {
 
   const [open, setOpen] = React.useState(false);
   const [email, setemail] = React.useState('');
+  const [forgotpasswordemail, setforgotpasswordemail] = React.useState('');
 
   const handleChange = (event) => {
     setemail(event.target.value);
@@ -46,6 +49,19 @@ const Login = () => {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const resetPassword = () => {
+    auth
+      .sendPasswordResetEmail(forgotpasswordemail)
+      .then(() => {
+        console.log('email sent');
+        alert('Check your email address for password reset mail');
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    handleClose();
   };
 
   return (
@@ -65,6 +81,8 @@ const Login = () => {
             label='Enter your email'
             variant='outlined'
             fullWidth
+            value={forgotpasswordemail}
+            onChange={(e) => setforgotpasswordemail(e.target.value)}
             type={'email'}
             sx={{ marginTop: '1rem' }}
           />
@@ -74,7 +92,7 @@ const Login = () => {
           <Button color='error' onClick={handleClose} autoFocus>
             Cancel
           </Button>
-          <Button color='primary' onClick={handleClose} autoFocus>
+          <Button color='primary' onClick={resetPassword} autoFocus>
             Send
           </Button>
         </DialogActions>
@@ -151,18 +169,18 @@ const Login = () => {
                         handleClickOpen={handleClickOpen}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <Divider>OR</Divider>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </Grid> */}
+                    {/* <Grid item xs={12}>
                       <FirebaseGoogleLogin />
-                    </Grid>
+                    </Grid> */}
                     {/* <Grid item xs={12}>
                     <FirebaseFacebookLogin />
                   </Grid> */}
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <FirebaseTwitterLogin />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </AuthCardWrapper>
               </Grid>
