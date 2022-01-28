@@ -8,6 +8,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Typography,
   Snackbar,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -47,6 +48,21 @@ const ProfilePage = () => {
         setFormData(res.data[0]);
       })
       .catch((err) => console.log(err));
+  };
+
+  const resetPassword = () => {
+    auth
+      .sendPasswordResetEmail(user.email)
+      .then(() => {
+        // Password reset email sent!
+        alert('Password reset email sent!');
+        // ..
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ..
+      });
   };
 
   const updateDetails = async () => {
@@ -256,6 +272,16 @@ const ProfilePage = () => {
             </RadioGroup>
           </FormControl> */}
           <br />
+          <Typography
+            variant='subtitle1'
+            // component={Link}
+            // to='/pages/forgot-password/forgot-password3'
+            color='secondary'
+            sx={{ textDecoration: 'none', cursor: 'pointer' }}
+            onClick={resetPassword}
+          >
+            Reset Password
+          </Typography>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant='contained' onClick={updateDetails}>
               Update Details
