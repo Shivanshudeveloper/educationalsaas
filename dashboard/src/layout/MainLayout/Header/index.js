@@ -125,7 +125,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       </IconButton>
 
       <IconButton
-        href="https://evanalinvideocall.vercel.app/create"
+        href="https://evanalinvideoconference.netlify.app/create"
         target="_blank"
         sx={{ mr: 1 }}
         color="inherit"

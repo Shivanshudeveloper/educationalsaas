@@ -1,4 +1,6 @@
 const AWS = require('aws-sdk');
+require('dotenv').config();
+
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -10,13 +12,13 @@ const listVideos = async (req, res) => {
     const { date } = req.query;
     if (date) {
       var params = {
-        Bucket: 'evaliain',
+        Bucket: 'evanalin',
       };
       const list = await s3.listObjectsV2(params).promise();
       const listUrls = [];
       for (let i = 0; i < list.Contents.length; i++) {
         if (list.Contents[i].Key.includes('mp4')) {
-          url = `https://evaliain.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`;
+          url = `https://evanalin.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`;
           folderName = url.split('/')[3];
           lm = list.Contents[i].LastModified;
           nd = new Date(lm);
@@ -34,13 +36,13 @@ const listVideos = async (req, res) => {
       res.status(200).json(listUrls);
     } else {
       var params = {
-        Bucket: 'evaliain',
+        Bucket: 'evanalin',
       };
       const list = await s3.listObjectsV2(params).promise();
       const listUrls = [];
       for (let i = 0; i < list.Contents.length; i++) {
         if (list.Contents[i].Key.includes('mp4')) {
-          url = `https://evaliain.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`;
+          url = `https://evanalin.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`;
           folderName = url.split('/')[3];
           lm = list.Contents[i].LastModified;
           nd = new Date(lm);
