@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Grid,
@@ -9,27 +9,30 @@ import {
   FormControlLabel,
   Radio,
   Snackbar,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import Dropzone from "react-dropzone";
-import { v4 as uuid4 } from "uuid";
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import Dropzone from 'react-dropzone';
+import { v4 as uuid4 } from 'uuid';
 
-import { auth, storage } from "../../Firebase/index";
-import axios from "axios";
-import { API_SERVICE } from "config";
+import { auth, storage } from '../../Firebase/index';
+import firebase from 'firebase/app';
+
+import axios from 'axios';
+import { API_SERVICE } from 'config';
 
 const ProfilePage = () => {
   const [user, setUser] = useState([]);
   const [formData, setFormData] = useState({
-    userRole: "",
-    userEmail: "",
-    userName: "",
-    userInstitute: "",
+    userRole: '',
+    userEmail: '',
+    userName: '',
+    userInstitute: '',
   });
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       setUser(user);
+      console.log(user.email);
     }
   });
 
@@ -47,24 +50,36 @@ const ProfilePage = () => {
   };
 
   const updateDetails = async () => {
+    const user = firebase.auth().currentUser;
+    user
+      .updateProfile({
+        displayName: formData.userName,
+      })
+      .then(() => {
+        console.log(`Display name updated`);
+      })
+      .catch((error) => {
+        console.log(`Error updating display name`);
+      });
+    console.log(user.displayName);
     await axios
       .post(`${API_SERVICE}/updateuser/${user.uid}`, formData)
       .then((res) => {
         getUser();
-        setMessage("Updated!!");
+        setMessage('Updated!!');
         handleClickSnack();
       })
       .catch((err) => console.log(err));
   };
 
   const [file, setFile] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const handleClickSnack = () => {
     setOpenSnack(true);
   };
   const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setOpenSnack(false);
@@ -90,7 +105,7 @@ const ProfilePage = () => {
           .ref(`pictures/products/${uniquetwoKey}/${file.name}`)
           .put(file);
         uploadTask.on(
-          "state_changed",
+          'state_changed',
           (snapshot) => {
             const progress = Math.round(
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -112,7 +127,7 @@ const ProfilePage = () => {
               .updateProfile({ photoURL: fp })
               .then((res) => {
                 handleClickSnack();
-                setMessage("File Uploaded");
+                setMessage('File Uploaded');
                 window.location.reload();
               })
               .catch((res) => console.log(res));
@@ -124,7 +139,7 @@ const ProfilePage = () => {
         );
       });
     } else {
-      setMessage("No File Selected Yet");
+      setMessage('No File Selected Yet');
       handleClickSnack();
     }
   };
@@ -133,8 +148,8 @@ const ProfilePage = () => {
     <div>
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         open={openSnack}
         autoHideDuration={2000}
@@ -143,54 +158,54 @@ const ProfilePage = () => {
         action={
           <React.Fragment>
             <IconButton
-              size="small"
-              aria-label="close"
-              color="inherit"
+              size='small'
+              aria-label='close'
+              color='inherit'
               onClick={handleCloseSnack}
             >
-              <CloseIcon fontSize="small" />
+              <CloseIcon fontSize='small' />
             </IconButton>
           </React.Fragment>
         }
       />
-      <Grid sx={{ display: "flex" }}>
+      <Grid sx={{ display: 'flex' }}>
         <Grid
-          md="4"
+          md='4'
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <img
             src={
               user?.photoURL ||
-              "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Farchive.org%2Fdownload%2Ftwitter-default-pfp%2Fe.png&f=1&nofb=1"
+              'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Farchive.org%2Fdownload%2Ftwitter-default-pfp%2Fe.png&f=1&nofb=1'
             }
             style={{
-              width: "130px",
-              borderRadius: "50%",
-              marginBottom: "20px",
+              width: '130px',
+              borderRadius: '50%',
+              marginBottom: '20px',
             }}
           />
           <Dropzone onDrop={handleDrop}>
             {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps({ className: "dropzone" })}>
+              <div {...getRootProps({ className: 'dropzone' })}>
                 <input {...getInputProps()} />
-                <Button variant="contained">Upload Profile Photo</Button>
+                <Button variant='contained'>Upload Profile Photo</Button>
               </div>
             )}
           </Dropzone>
         </Grid>
-        <Grid md="8">
+        <Grid md='8'>
           Email
           <TextField
             sx={{ mb: 2 }}
             // label="Email"
             disabled
             fullWidth
-            value={formData?.userEmail}
+            value={user ? user.email : formData.userEmail}
           />
           Full Name
           <TextField
@@ -212,7 +227,7 @@ const ProfilePage = () => {
               setFormData({ ...formData, userInstitute: e.target.value })
             }
           />
-          <FormControl component="fieldset" sx={{ mb: 2 }}>
+          {/* <FormControl component="fieldset" sx={{ mb: 2 }}>
             <FormLabel component="legend">Select your role</FormLabel>
             <RadioGroup
               row
@@ -239,10 +254,10 @@ const ProfilePage = () => {
                 label="Teacher"
               />
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
           <br />
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button variant="contained" onClick={updateDetails}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant='contained' onClick={updateDetails}>
               Update Details
             </Button>
           </div>

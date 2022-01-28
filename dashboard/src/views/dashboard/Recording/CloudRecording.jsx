@@ -163,7 +163,7 @@ const CloudRecording = () => {
                       <Tooltip title='Download'>
                         <IconButton
                           color='primary'
-                          href={recording.videoUrl}
+                          href={recording.url}
                           target='_blank'
                         >
                           <DownloadIcon />
