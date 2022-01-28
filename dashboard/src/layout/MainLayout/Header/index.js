@@ -125,7 +125,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       </IconButton>
 
       <IconButton
-        href="https://evanalinvideoconference.netlify.app/create"
+        href="https://evanalinvideoconference.netlify.app"
         target="_blank"
         sx={{ mr: 1 }}
         color="inherit"
