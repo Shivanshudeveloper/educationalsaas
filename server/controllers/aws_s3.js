@@ -33,7 +33,7 @@ const listVideos = async (req, res) => {
       const listUrls = [];
       for (let i = 0; i < list.Contents.length; i++) {
         if (list.Contents[i].Key.includes('mp4')) {
-          url = `https://evanalin.s3.eu-central-1.amazonaws.com/${list.Contents[i].Key}`;
+          url = `https://evanalin.s3.ap-south-1.amazonaws.com/${list.Contents[i].Key}`;
           folderName = url.split('/')[3];
           lm = list.Contents[i].LastModified;
           nd = new Date(lm);
