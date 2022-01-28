@@ -926,7 +926,7 @@ schedule.scheduleJob('0 0 * * *', async () => {
 //s3 listvideos endpoint
 router.get('/listvideos/', aws_con.listVideos);
 router.get('/listvideos/:date', aws_con.listVideos);
-
+router.delete('/deletevideo', aws_con.deleteVideo);
 // ATTENDANCE ROUTES
 router.post('/attendance/clock-in', async (req, res) => {
   const { id } = req.body;

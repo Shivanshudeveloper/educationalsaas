@@ -7,6 +7,21 @@ AWS.config.update({
   region: 'eu-central-1',
 });
 var s3 = new AWS.S3();
+
+const deleteVideo = async (req, res) => {
+  try {
+    const { url } = req.body;
+    console.log(url);
+    const params = {
+      Bucket: 'evanalin',
+      Key: url.split('/')[4],
+    };
+    const deleteVideo = await s3.deleteObject(params).promise();
+    res.status(200).json(url);
+  } catch (err) {
+    console.log(err);
+  }
+}
 const listVideos = async (req, res) => {
   try {
     const { date } = req.query;
@@ -64,4 +79,5 @@ const listVideos = async (req, res) => {
 
 module.exports = {
   listVideos,
+  deleteVideo
 };
