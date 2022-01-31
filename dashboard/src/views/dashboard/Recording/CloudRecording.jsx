@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core';
 
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import DeleteIcon from '@material-ui/icons/Delete';
 import DownloadIcon from '@material-ui/icons/Download';
 import ShareIcon from '@material-ui/icons/Share';
 import Dialog from '@material-ui/core/Dialog';
@@ -79,12 +80,24 @@ const CloudRecording = () => {
         .get(`${API_SERVICE}/listvideos/`)
         .then((res) => {
           setLoading(false);
+          console.log(res.data);
           setRecordings(res.data);
         })
         .catch((err) => console.log(err));
     };
     get();
   }, []);
+
+  const deleteVideo = (url) => {
+    // console.log(url);
+    axios
+      .delete(`${API_SERVICE}/deletevideo`, {
+        url,
+      })
+      .then((res) => console.log('Deleted'))
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       <Dialog fullWidth open={openShare} onClose={handleCloseShare}>
@@ -160,6 +173,15 @@ const CloudRecording = () => {
                       {new Date(recording.createdDate).toDateString()}
                     </TableCell>
                     <TableCell align='center'>
+                      <Tooltip title='delete'>
+                        <IconButton
+                          color='primary'
+                          target='_blank'
+                          onClick={() => deleteVideo(recording.url)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
                       <Tooltip title='Download'>
                         <IconButton
                           color='primary'

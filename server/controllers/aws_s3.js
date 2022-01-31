@@ -1,21 +1,23 @@
 const AWS = require('aws-sdk');
 require('dotenv').config();
 AWS.config.update({
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_KEY,
+  accessKeyId: 'process.env.ACCESS_KEY',
+  secretAccessKey: 'process.env.SECRET_KEY',
   region: 'ap-south-1',
 });
 var s3 = new AWS.S3();
 const deleteVideo = async (req, res) => {
+  // console.log('In delete video controller');
   try {
     const { url } = req.body;
+    console.log(req.body);
     let uurl = url;
     const params = {
       Bucket: 'evanalin',
       Key: uurl.replace('https://evanalin.s3.ap-south-1.amazonaws.com/', ''),
     };
     const deleteVideo = await s3.deleteObject(params).promise();
-   if (deleteVideo) {
+    if (deleteVideo) {
       res.status(200).json({
         message: 'Video Deleted Successfully',
       });
@@ -23,7 +25,7 @@ const deleteVideo = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 const listVideos = async (req, res) => {
   try {
     const { date } = req.query;
@@ -81,5 +83,5 @@ const listVideos = async (req, res) => {
 
 module.exports = {
   listVideos,
-  deleteVideo
+  deleteVideo,
 };

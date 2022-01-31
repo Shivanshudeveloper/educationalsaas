@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Container from "@material-ui/core/Container";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 import {
   Tooltip,
   IconButton,
@@ -15,32 +15,34 @@ import {
   Box,
   DialogContentText,
   Typography,
-} from "@material-ui/core";
-import axios from "axios";
-import TimePicker from "@mui/lab/TimePicker";
-import DatePicker from "@mui/lab/DatePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { useState, useEffect } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+  Input,
+} from '@material-ui/core';
+import axios from 'axios';
+import TimePicker from '@mui/lab/TimePicker';
+import DatePicker from '@mui/lab/DatePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { useState, useEffect } from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { API_SERVICE } from "config";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import { makeStyles } from "@material-ui/styles";
+import { API_SERVICE } from 'config';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import { makeStyles } from '@material-ui/styles';
+import { storage } from '../../../Firebase/index';
 function getSessionStorageOrDefault(key, defaultValue) {
   const stored = sessionStorage.getItem(key);
   if (!stored) {
@@ -64,138 +66,151 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const timeArray = [
-  "12:00am",
-  "12:15am",
-  "12:30am",
-  "12:45am",
-  "1:00am",
-  "1:15am",
-  "1:30am",
-  "1:45am",
-  "2:00am",
-  "2:15am",
-  "2:30am",
-  "2:45am",
-  "3:00am",
-  "3:15am",
-  "3:30am",
-  "3:45am",
-  "4:00am",
-  "4:15am",
-  "4:30am",
-  "4:45am",
-  "5:00am",
-  "5:15am",
-  "5:30am",
-  "5:45am",
-  "6:00am",
-  "6:15am",
-  "6:30am",
-  "6:45am",
-  "7:00am",
-  "7:15am",
-  "7:30am",
-  "7:45am",
-  "8:00am",
-  "8:15am",
-  "8:30am",
-  "8:45am",
-  "9:00am",
-  "9:15am",
-  "9:30am",
-  "9:45am",
-  "10:00am",
-  "10:15am",
-  "10:30am",
-  "10:45am",
-  "11:00am",
-  "11:15am",
-  "11:30am",
-  "11:45am",
-  "12:00pm",
-  "12:15pm",
-  "12:30pm",
-  "12:45pm",
-  "1:00pm",
-  "1:15pm",
-  "1:30pm",
-  "1:45pm",
-  "2:00pm",
-  "2:15pm",
-  "2:30pm",
-  "2:45pm",
-  "3:00pm",
-  "3:15pm",
-  "3:30pm",
-  "3:45pm",
-  "4:00pm",
-  "4:15pm",
-  "4:30pm",
-  "4:45pm",
-  "5:00pm",
-  "5:15pm",
-  "5:30pm",
-  "5:45pm",
-  "6:00pm",
-  "6:15pm",
-  "6:30pm",
-  "6:45pm",
-  "7:00pm",
-  "7:15pm",
-  "7:30pm",
-  "7:45pm",
-  "8:00pm",
-  "8:15pm",
-  "8:30pm",
-  "8:45pm",
-  "9:00pm",
-  "9:15pm",
-  "9:30pm",
-  "9:45pm",
-  "10:00pm",
-  "10:15pm",
-  "10:30pm",
-  "10:45pm",
-  "11:00pm",
-  "11:15pm",
-  "11:30pm",
-  "11:45pm",
+  '12:00am',
+  '12:15am',
+  '12:30am',
+  '12:45am',
+  '1:00am',
+  '1:15am',
+  '1:30am',
+  '1:45am',
+  '2:00am',
+  '2:15am',
+  '2:30am',
+  '2:45am',
+  '3:00am',
+  '3:15am',
+  '3:30am',
+  '3:45am',
+  '4:00am',
+  '4:15am',
+  '4:30am',
+  '4:45am',
+  '5:00am',
+  '5:15am',
+  '5:30am',
+  '5:45am',
+  '6:00am',
+  '6:15am',
+  '6:30am',
+  '6:45am',
+  '7:00am',
+  '7:15am',
+  '7:30am',
+  '7:45am',
+  '8:00am',
+  '8:15am',
+  '8:30am',
+  '8:45am',
+  '9:00am',
+  '9:15am',
+  '9:30am',
+  '9:45am',
+  '10:00am',
+  '10:15am',
+  '10:30am',
+  '10:45am',
+  '11:00am',
+  '11:15am',
+  '11:30am',
+  '11:45am',
+  '12:00pm',
+  '12:15pm',
+  '12:30pm',
+  '12:45pm',
+  '1:00pm',
+  '1:15pm',
+  '1:30pm',
+  '1:45pm',
+  '2:00pm',
+  '2:15pm',
+  '2:30pm',
+  '2:45pm',
+  '3:00pm',
+  '3:15pm',
+  '3:30pm',
+  '3:45pm',
+  '4:00pm',
+  '4:15pm',
+  '4:30pm',
+  '4:45pm',
+  '5:00pm',
+  '5:15pm',
+  '5:30pm',
+  '5:45pm',
+  '6:00pm',
+  '6:15pm',
+  '6:30pm',
+  '6:45pm',
+  '7:00pm',
+  '7:15pm',
+  '7:30pm',
+  '7:45pm',
+  '8:00pm',
+  '8:15pm',
+  '8:30pm',
+  '8:45pm',
+  '9:00pm',
+  '9:15pm',
+  '9:30pm',
+  '9:45pm',
+  '10:00pm',
+  '10:15pm',
+  '10:30pm',
+  '10:45pm',
+  '11:00pm',
+  '11:15pm',
+  '11:30pm',
+  '11:45pm',
 ];
-const meetingURL=[{
-  Attende:"https://evaliain-video.vercel.app/6046ecb6-25de-4d8d-be4a-e6459d3477d4",
-  hostURL:"https://evaliain-video.vercel.app/5dff2a12-811a-4e64-bb27-1c5f23711ac3"
-},{
-  Attende:"https://evaliain-video.vercel.app/807407b7-6242-4fa3-b73e-986d90e0aadb",
-  hostURL:"https://evaliain-video.vercel.app/03984719-865c-4680-9ba9-1d2f871b7494"
-},
-{
-  Attende:"https://evaliain-video.vercel.app/b2acc357-5c2e-41b7-8a14-bc3d9c6e341c",
-  hostURL:"https://evaliain-video.vercel.app/6d4eaa51-70c1-4f7a-b99e-7317d6032f55"
-},
-{
-  Attende:"https://evaliain-video.vercel.app/e8b8571d-c9b8-4696-9db9-b2970a4f5ca0",
-  hostURL:"https://evaliain-video.vercel.app/8ca9dd97-10a1-4647-8ab0-456284d4a122"
-}]
-const items = ["days", "weeks", "years", "months"];
+const meetingURL = [
+  {
+    Attende:
+      'https://evaliain-video.vercel.app/6046ecb6-25de-4d8d-be4a-e6459d3477d4',
+    hostURL:
+      'https://evaliain-video.vercel.app/5dff2a12-811a-4e64-bb27-1c5f23711ac3',
+  },
+  {
+    Attende:
+      'https://evaliain-video.vercel.app/807407b7-6242-4fa3-b73e-986d90e0aadb',
+    hostURL:
+      'https://evaliain-video.vercel.app/03984719-865c-4680-9ba9-1d2f871b7494',
+  },
+  {
+    Attende:
+      'https://evaliain-video.vercel.app/b2acc357-5c2e-41b7-8a14-bc3d9c6e341c',
+    hostURL:
+      'https://evaliain-video.vercel.app/6d4eaa51-70c1-4f7a-b99e-7317d6032f55',
+  },
+  {
+    Attende:
+      'https://evaliain-video.vercel.app/e8b8571d-c9b8-4696-9db9-b2970a4f5ca0',
+    hostURL:
+      'https://evaliain-video.vercel.app/8ca9dd97-10a1-4647-8ab0-456284d4a122',
+  },
+];
+const items = ['days', 'weeks', 'years', 'months'];
 const RegisterEvents = () => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const [Todelete,setToDelete]=useState(null);
-  const [eventEdit,setEventEdit]=useState({
-    title: "",
+  const [Todelete, setToDelete] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const [eventEdit, setEventEdit] = useState({
+    title: '',
     startDate: null,
     endDate: null,
-    startTime: "00:00am",
-    endTime: "00:00am",
-    email: "",
-    description: "",
+    startTime: '00:00am',
+    endTime: '00:00am',
+    email: '',
+    description: '',
     recurrenceType: "Doesn't repeat",
     recurrenceValue: {},
   });
   const [custom, setCustom] = useState({
     repeatEvery: {
       count: 0,
-      type: "days",
+      type: 'days',
     },
     repeatOn: {
       sun: false,
@@ -207,39 +222,39 @@ const RegisterEvents = () => {
       sat: false,
     },
     ends: {
-      type: "Never",
+      type: 'Never',
       value: 0,
     },
   });
   const [openCustom, setOpenCustom] = useState(false);
-  const [openEdit,setOpenEdit]=useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [event, setEvent] = useState({
-    title: "",
-    startDate:  new Date(),
+    title: '',
+    startDate: new Date(),
     endDate: null,
-    startTime: "00:00am",
-    endTime: "00:00am",
-    email: "",
-    description: "",
+    startTime: '00:00am',
+    endTime: '00:00am',
+    email: '',
+    description: '',
     recurrenceType: "Doesn't repeat",
     recurrenceValue: {},
-    Attende:"",
-    hostUrl:""
+    Attende: '',
+    hostUrl: '',
   });
   const [options, setOptions] = React.useState(timeArray);
-  const [onDate,setOnDate]=useState("");
-  const [occur,setOccur]=useState(0);
+  const [onDate, setOnDate] = useState('');
+  const [occur, setOccur] = useState(0);
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(null);
-  const userEmail = getSessionStorageOrDefault("userEmail", "");
-  const userName = getSessionStorageOrDefault("userName", "");
+  const userEmail = getSessionStorageOrDefault('userEmail', '');
+  const userName = getSessionStorageOrDefault('userName', '');
   const [events, setEvents] = useState([]);
-  const [openEditCustom,setOpenEditCustom]=useState(false);
-  const [randomNumber,setRandomNumber]=useState(0);
-  const [customEdit,setCustomEdit]=useState({
+  const [openEditCustom, setOpenEditCustom] = useState(false);
+  const [randomNumber, setRandomNumber] = useState(0);
+  const [customEdit, setCustomEdit] = useState({
     repeatEvery: {
       count: 0,
-      type: "days",
+      type: 'days',
     },
     repeatOn: {
       sun: false,
@@ -251,76 +266,107 @@ const RegisterEvents = () => {
       sat: false,
     },
     ends: {
-      type: "Never",
+      type: 'Never',
       value: 0,
     },
   });
+  const onFileChange = (event) => {
+    // Update the state
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // On file upload (click the upload button)
+  const onFileUpload = () => {
+    // Create an object of formData
+    const formData = new FormData();
+    if (selectedFile == null) return;
+    storage
+      .ref(`${selectedFile.name}`)
+      .put(selectedFile)
+      .on('state_changed', alert('success'), alert);
+    // Update the formData object
+    // formData.append('myFile', selectedFile, selectedFile.name);
+    // Details of the uploaded file
+    // console.log(selectedFile);
+    // Request made to the backend api
+    // Send formData object
+    // axios.post('api/uploadfile', formData);
+  };
+
   const handleClickOpen = () => {
-    setRandomNumber(Math.floor(Math.random()*4));
+    setRandomNumber(Math.floor(Math.random() * 4));
     setOpen(true);
   };
   const handleClose = () => {
-  
     setOpen(false);
     setEvent({
-      title: "",
+      title: '',
       startDate: null,
       endDate: null,
-      startTime: "00:00am",
-      endTime: "00:00am",
-      email: "",
-      description: "",
+      startTime: '00:00am',
+      endTime: '00:00am',
+      email: '',
+      description: '',
       recurrenceType: "Doesn't repeat",
       recurrenceValue: {},
-      Attende:"",
-    hostUrl:""
+      Attende: '',
+      hostUrl: '',
     });
   };
   const submit = async () => {
     console.log(event);
     await axios.post(`${API_SERVICE}/addevent`, {
-      event:{...event,recurrenceValue:custom,Attende:meetingURL[randomNumber].Attende,
-      hostUrl:meetingURL[randomNumber].hostURL},
+      event: {
+        ...event,
+        recurrenceValue: custom,
+        Attende: meetingURL[randomNumber].Attende,
+        hostUrl: meetingURL[randomNumber].hostURL,
+      },
       userEmail,
       userName,
     });
     setOpen(false);
     setEvent({
-      title: "",
+      title: '',
       startDate: null,
       endDate: null,
-      startTime: "00:00am",
-      endTime: "00:00am",
-      email: "",
-      description: "",
+      startTime: '00:00am',
+      endTime: '00:00am',
+      email: '',
+      description: '',
       recurrenceType: "Doesn't repeat",
       recurrenceValue: {},
-      Attende:"",
-    hostUrl:""
+      Attende: '',
+      hostUrl: '',
     });
-    setEvents((old) => [...old, {...event,Attende:meetingURL[randomNumber].Attende,
-      hostUrl:meetingURL[randomNumber].hostURL}]);
+    setEvents((old) => [
+      ...old,
+      {
+        ...event,
+        Attende: meetingURL[randomNumber].Attende,
+        hostUrl: meetingURL[randomNumber].hostURL,
+      },
+    ]);
   };
   const handleEditSubmit = async () => {
-    
     setOpenEditCustom(false);
-    
+
     setOpenEdit(false);
     await axios.patch(`${API_SERVICE}/updateevent`, {
-      event:{...eventEdit,recurrenceValue:customEdit}
+      event: { ...eventEdit, recurrenceValue: customEdit },
     });
-    let EEvents=[...events];
-    let index=EEvents.findIndex((ele)=>ele._id===eventEdit._id);
-    EEvents[index]={...eventEdit,recurrenceValue:customEdit};
+    let EEvents = [...events];
+    let index = EEvents.findIndex((ele) => ele._id === eventEdit._id);
+    EEvents[index] = { ...eventEdit, recurrenceValue: customEdit };
     setEvents(EEvents);
     setEventEdit({
-      title: "",
+      title: '',
       startDate: null,
       endDate: null,
-      startTime: "00:00am",
-      endTime: "00:00am",
-      email: "",
-      description: "",
+      startTime: '00:00am',
+      endTime: '00:00am',
+      email: '',
+      description: '',
       recurrenceType: "Doesn't repeat",
       recurrenceValue: {},
     });
@@ -337,23 +383,23 @@ const RegisterEvents = () => {
     setOpenCustom(false);
   };
   useEffect(() => {
-    if (event.recurrenceType === "Custom") {
+    if (event.recurrenceType === 'Custom') {
       setOpenCustom(true);
     }
   }, [event.recurrenceType]);
   useEffect(() => {
-    if (eventEdit?.recurrenceType === "Custom") {
-      setCustomEdit(eventEdit?.recurrenceValue)
+    if (eventEdit?.recurrenceType === 'Custom') {
+      setCustomEdit(eventEdit?.recurrenceValue);
     }
   }, [eventEdit?.recurrenceType]);
-  const handleDelete=async(e)=>{
-    let Events=[...events];
+  const handleDelete = async (e) => {
+    let Events = [...events];
     const res = await axios.delete(`${API_SERVICE}/deleteevent/${e._id}`);
-      Events=Events.filter((ele)=>ele._id!==e._id);
-      setEvents(Events);
-      console.log(res.data);
-    };
- 
+    Events = Events.filter((ele) => ele._id !== e._id);
+    setEvents(Events);
+    console.log(res.data);
+  };
+
   const handleSetDay = (i) => {
     if (i === 0) {
       setCustom({
@@ -430,59 +476,58 @@ const RegisterEvents = () => {
       });
     }
   };
-  const handleCloseEdit=()=>{
-
+  const handleCloseEdit = () => {
     setOpenEdit(false);
-  }
-  const handleCloseEditCustom=()=>{
+  };
+  const handleCloseEditCustom = () => {
     setCustomEdit(eventEdit.recurrenceValue);
     setOpenEditCustom(false);
-  }
+  };
   return (
     <>
-     <Dialog
+      <Dialog
         open={openEditCustom}
-        maxWidth="sm"
+        maxWidth='sm'
         onClose={handleCloseEditCustom}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
-        <Typography variant="h3" sx={{ m: 2, fontWeight: 300 }}>
-         Edit Custom recurrence
+        <Typography variant='h3' sx={{ m: 2, fontWeight: 300 }}>
+          Edit Custom recurrence
         </Typography>
 
         <DialogContent>
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-evenly",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
             }}
           >
-            <Typography variant="h4" sx={{ fontWeight: 100, mr: 10 }}>
+            <Typography variant='h4' sx={{ fontWeight: 100, mr: 10 }}>
               Repeat Every
             </Typography>
             <TextField
               autoFocus
-              margin="dense"
-              id="name"
+              margin='dense'
+              id='name'
               value={customEdit?.repeatEvery?.count}
-              variant="outlined"
-              sx={{ borderRadius: "20px" }}
+              variant='outlined'
+              sx={{ borderRadius: '20px' }}
               onChange={(e) =>
                 setCustomEdit({
                   ...customEdit,
                   repeatEvery: {
-                    count: (e.target.value),
+                    count: e.target.value,
                     type: customEdit?.repeatEvery.type,
                   },
                 })
               }
-              type="number"
+              type='number'
             />
-            <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+            <FormControl variant='outlined' sx={{ m: 1, minWidth: 120 }}>
               <Select
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled"
+                labelId='demo-simple-select-filled-label'
+                id='demo-simple-select-filled'
                 value={customEdit?.repeatEvery.type}
                 onChange={(e) =>
                   setCustomEdit({
@@ -501,56 +546,56 @@ const RegisterEvents = () => {
             </FormControl>
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography
-              variant="h4"
-              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: "left" }}
+              variant='h4'
+              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: 'left' }}
             >
               Repeat On
             </Typography>
 
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 mt: 3,
                 ml: 10,
               }}
             >
-              {["S", "M", "T", "W", "T", "F", "S"].map((ele, id) => {
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((ele, id) => {
                 return (
                   <div
                     style={
                       !Object.entries(customEdit?.repeatOn)[id][1]
                         ? {
-                            border: "1px solid white",
-                            borderRadius: "20px",
-                            textAlign: "center",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            backgroundColor: "#f0f8ff",
-                            marginLeft: "10px",
-                            fontWeight: "600",
-                            height: "30px",
-                            width: "30px",
+                            border: '1px solid white',
+                            borderRadius: '20px',
+                            textAlign: 'center',
+                            display: 'flex',
+                            cursor: 'pointer',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            backgroundColor: '#f0f8ff',
+                            marginLeft: '10px',
+                            fontWeight: '600',
+                            height: '30px',
+                            width: '30px',
                           }
                         : {
-                            border: "1px solid white",
-                            borderRadius: "20px",
-                            textAlign: "center",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            backgroundColor: "#1e90ff",
-                            color: "white",
-                            fontWeight: "800",
-                            marginLeft: "10px",
-                            cursor: "pointer",
-                            height: "30px",
-                            width: "30px",
+                            border: '1px solid white',
+                            borderRadius: '20px',
+                            textAlign: 'center',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            backgroundColor: '#1e90ff',
+                            color: 'white',
+                            fontWeight: '800',
+                            marginLeft: '10px',
+                            cursor: 'pointer',
+                            height: '30px',
+                            width: '30px',
                           }
                     }
                     key={id}
@@ -564,66 +609,66 @@ const RegisterEvents = () => {
               })}
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography
-              variant="h4"
-              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: "left" }}
+              variant='h4'
+              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: 'left' }}
             >
               Ends
             </Typography>
 
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 mt: 3,
                 ml: 10,
               }}
             >
-              <FormControl component="fieldset">
+              <FormControl component='fieldset'>
                 <RadioGroup
-                  aria-label="gender"
+                  aria-label='gender'
                   defaultValue={customEdit?.ends.type}
-                  name="radio-buttons-group"
+                  name='radio-buttons-group'
                 >
                   <FormControlLabel
                     onClick={() =>
                       setCustomEdit({
                         ...customEdit,
                         ends: {
-                          type: "Never",
+                          type: 'Never',
                           value: null,
                         },
                       })
                     }
-                    value="Never"
+                    value='Never'
                     control={<Radio />}
-                    label="Never"
+                    label='Never'
                   />
                   <FormControlLabel
                     onClick={() =>
                       setCustomEdit({
                         ...customEdit,
                         ends: {
-                          type: "On",
-                          value:null,
+                          type: 'On',
+                          value: null,
                         },
                       })
                     }
-                    value="On"
+                    value='On'
                     control={<Radio />}
-                    label="On"
+                    label='On'
                   />
-                   {customEdit?.ends.type === "On" ? (
+                  {customEdit?.ends.type === 'On' ? (
                     <TextField
                       autoFocus
-                      margin="dense"
-                      id="name"
-                      value={onDate===""?customEdit?.ends.value:onDate}
-                      onChange={(e)=>setOnDate(e.target.value)}
-                      sx={{ mb: 2, width: "100%" }}
-                      type="date"
+                      margin='dense'
+                      id='name'
+                      value={onDate === '' ? customEdit?.ends.value : onDate}
+                      onChange={(e) => setOnDate(e.target.value)}
+                      sx={{ mb: 2, width: '100%' }}
+                      type='date'
                     />
                   ) : null}
                   <FormControlLabel
@@ -631,116 +676,123 @@ const RegisterEvents = () => {
                       setCustomEdit({
                         ...customEdit,
                         ends: {
-                          type: "After",
+                          type: 'After',
                           value: null,
                         },
                       })
                     }
-                    value="After"
+                    value='After'
                     control={<Radio />}
-                    label="After"
+                    label='After'
                   />
-            
-                     {customEdit?.ends.type === "After" ? (
+
+                  {customEdit?.ends.type === 'After' ? (
                     <TextField
                       autoFocus
-                      margin="dense"
-                      id="name"
-                      variant="outlined"
-                      label="occurrences"
-                      value={occur===0?customEdit?.ends.value:occur}
-                      onChange={(e)=>setOccur(e.target.value)}
-                      sx={{ mb: 2, width: "100%"}}
-                      type="number"
+                      margin='dense'
+                      id='name'
+                      variant='outlined'
+                      label='occurrences'
+                      value={occur === 0 ? customEdit?.ends.value : occur}
+                      onChange={(e) => setOccur(e.target.value)}
+                      sx={{ mb: 2, width: '100%' }}
+                      type='number'
                     />
-                  ) : null} 
+                  ) : null}
                 </RadioGroup>
               </FormControl>
-              
             </Box>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button sx={{ color: "gray" }} autoFocus onClick={()=>{
-          handleCloseEditCustom();
-          }}>
+          <Button
+            sx={{ color: 'gray' }}
+            autoFocus
+            onClick={() => {
+              handleCloseEditCustom();
+            }}
+          >
             Cancel
           </Button>
-          <Button onClick={()=>{
-           if(customEdit?.ends.type==="On"){
-            setCustomEdit({
-              ...customEdit,
-              ends: {
-                type: customEdit?.ends.type,
-                value: onDate,
-              },
-            })
-           }
-           if(customEdit?.ends.type==="After"){
-            setCustomEdit({
-              ...customEdit,
-              ends: {
-                type: customEdit?.ends.type,
-                value: occur,
-              },
-            })
-           }
-           setOpenEditCustom(false);
-          }} autoFocus>
+          <Button
+            onClick={() => {
+              if (customEdit?.ends.type === 'On') {
+                setCustomEdit({
+                  ...customEdit,
+                  ends: {
+                    type: customEdit?.ends.type,
+                    value: onDate,
+                  },
+                });
+              }
+              if (customEdit?.ends.type === 'After') {
+                setCustomEdit({
+                  ...customEdit,
+                  ends: {
+                    type: customEdit?.ends.type,
+                    value: occur,
+                  },
+                });
+              }
+              setOpenEditCustom(false);
+            }}
+            autoFocus
+          >
             Done
           </Button>
         </DialogActions>
       </Dialog>
 
-
-     <Dialog
+      <Dialog
         open={openEdit}
-        maxWidth="md"
+        maxWidth='md'
         fullWidth
         onClose={handleCloseEdit}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id="form-dialog-title">Edit Event</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Edit Event</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             value={eventEdit.title}
             fullWidth
-            onChange={(e) => setEventEdit({ ...eventEdit, title: e.target.value })}
-            label="Title"
+            onChange={(e) =>
+              setEventEdit({ ...eventEdit, title: e.target.value })
+            }
+            label='Title'
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
 
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
             }}
           >
             <Box
               sx={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 mr: 2,
               }}
             >
               <TextField
                 autoFocus
-                margin="dense"
-                id="name"
+                margin='dense'
+                id='name'
                 value={eventEdit.startDate}
-                onChange={(e) =>{
-                  setEventEdit({ ...eventEdit, startDate: e.target.value })
+                onChange={(e) => {
+                  setEventEdit({ ...eventEdit, startDate: e.target.value });
                 }}
-                sx={{ mb: 2, width: "60%" }}
-                type="date"
+                sx={{ mb: 2, width: '60%' }}
+                type='date'
               />
               <Autocomplete
                 options={options}
@@ -748,17 +800,16 @@ const RegisterEvents = () => {
                 onInputChange={(e, newValue) => {
                   setEventEdit({ ...eventEdit, startTime: newValue });
                 }}
-                
                 value={eventEdit.startTime}
-                sx={{ width: "35%" }}
+                sx={{ width: '35%' }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    id="standard-basic"
-                    variant="standard"
+                    id='standard-basic'
+                    variant='standard'
                     onKeyDown={(e) => {
                       if (
-                        e.key === "Enter" &&
+                        e.key === 'Enter' &&
                         timeArray.findIndex(
                           (o) => o.title === eventEdit.startTime
                         ) === -1
@@ -770,47 +821,45 @@ const RegisterEvents = () => {
                 )}
               />
             </Box>
-            <h3 >to</h3>
+            <h3>to</h3>
             <Box
               sx={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 ml: 2,
               }}
             >
               <TextField
                 autoFocus
-                margin="dense"
-                id="name"
+                margin='dense'
+                id='name'
                 value={eventEdit.endDate}
-                onChange={(e) =>{
-                  
+                onChange={(e) => {
                   console.log(eventEdit);
                   setEventEdit({ ...eventEdit, endDate: e.target.value });
-                }
-                }
-                sx={{ mb: 2, width: "60%" }}
-                type="date"
+                }}
+                sx={{ mb: 2, width: '60%' }}
+                type='date'
               />
               <Autocomplete
                 options={options}
-                sx={{ width: "35%" }}
+                sx={{ width: '35%' }}
                 getOptionLabel={(option) => option}
                 onInputChange={(e, newValue) => {
-                  setEventEdit({ ...eventEdit, endTime:newValue });
+                  setEventEdit({ ...eventEdit, endTime: newValue });
                 }}
                 value={eventEdit.endTime}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    id="standard-basic"
-                    variant="standard"
+                    id='standard-basic'
+                    variant='standard'
                     onKeyDown={(e) => {
                       if (
-                        e.key === "Enter" &&
+                        e.key === 'Enter' &&
                         timeArray.findIndex(
                           (o) => o.title === eventEdit.endTime
                         ) === -1
@@ -823,140 +872,150 @@ const RegisterEvents = () => {
               />
             </Box>
           </Box>
-          <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+          <FormControl variant='filled' sx={{ m: 1, minWidth: 120 }}>
             <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
+              labelId='demo-simple-select-filled-label'
+              id='demo-simple-select-filled'
               value={eventEdit.recurrenceType}
-              onChange={(e) =>{
-                
-                setEventEdit({ ...eventEdit, recurrenceType: e.target.value })
-                if( e.target.value==="Custom"){
+              onChange={(e) => {
+                setEventEdit({ ...eventEdit, recurrenceType: e.target.value });
+                if (e.target.value === 'Custom') {
                   setOpenEditCustom(true);
                 }
-              }
-              }
+              }}
             >
               <MenuItem value={"Doesn't repeat"}>Doesn't repeat</MenuItem>
-              <MenuItem value={"Custom"}>Custom</MenuItem>
+              <MenuItem value={'Custom'}>Custom</MenuItem>
             </Select>
           </FormControl>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             fullWidth
             value={eventEdit.email}
-            onChange={(e) => setEventEdit({ ...eventEdit, email: e.target.value })}
-            label="Email"
+            onChange={(e) =>
+              setEventEdit({ ...eventEdit, email: e.target.value })
+            }
+            label='Email'
             sx={{ mb: 2 }}
-            type="text"
-          />
-     <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            fullWidth
-            value={eventEdit.Attende}
-
-            label="Attende"
-            disabled
-            sx={{ mb: 2 }}
-            type="text"
-          />
-            <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            fullWidth
-            value={eventEdit.hostUrl}
-        
-            label="Host URL:"
-            disabled
-            sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
+            fullWidth
+            value={eventEdit.Attende}
+            label='Attende'
+            disabled
+            sx={{ mb: 2 }}
+            type='text'
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            fullWidth
+            value={eventEdit.hostUrl}
+            label='Host URL:'
+            disabled
+            sx={{ mb: 2 }}
+            type='text'
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
             fullWidth
             value={eventEdit.description}
             onChange={(e) =>
               setEventEdit({ ...eventEdit, description: e.target.value })
             }
-            label="Description"
+            label='Description'
             multiline
             rows={4}
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
+          {selectedFile ? (
+            <div>
+              <h2>File Details:</h2>
+              <p>File Name: {selectedFile.name}</p>
+              <button onClick={onFileUpload}>Upload</button>
+              {/* <p>File Type: {this.state.selectedFile.type}</p> */}
+              {/* <p>
+                Last Modified:{' '}
+                {this.state.selectedFile.lastModifiedDate.toDateString()}
+              </p> */}
+            </div>
+          ) : (
+            <label class='file'>
+              <input
+                type='file'
+                id='file'
+                aria-label='File upload'
+                onChange={onFileChange}
+              />
+
+              <span class='file-custom'></span>
+            </label>
+            // {/* <Input type='file'  /> */}
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEdit} color="primary">
+          <Button onClick={handleCloseEdit} color='primary'>
             Cancel
           </Button>
-          <Button onClick={handleEditSubmit} color="primary">
+          <Button onClick={handleEditSubmit} color='primary'>
             Submit
           </Button>
         </DialogActions>
       </Dialog>
 
-      
-
-
-
-
-
-
-
-
-
-
-
       <Dialog
         open={openCustom}
-        maxWidth="sm"
+        maxWidth='sm'
         onClose={handleCloseCustom}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
-        <Typography variant="h3" sx={{ m: 2, fontWeight: 300 }}>
+        <Typography variant='h3' sx={{ m: 2, fontWeight: 300 }}>
           Custom recurrence
         </Typography>
 
         <DialogContent>
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-evenly",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
             }}
           >
-            <Typography variant="h4" sx={{ fontWeight: 100, mr: 10 }}>
+            <Typography variant='h4' sx={{ fontWeight: 100, mr: 10 }}>
               Repeat Every
             </Typography>
             <TextField
               autoFocus
-              margin="dense"
-              id="name"
+              margin='dense'
+              id='name'
               value={custom.repeatEvery.count}
-              variant="outlined"
-              sx={{ borderRadius: "20px" }}
+              variant='outlined'
+              sx={{ borderRadius: '20px' }}
               onChange={(e) =>
                 setCustom({
                   ...custom,
                   repeatEvery: {
-                    count: (e.target.value),
+                    count: e.target.value,
                     type: custom.repeatEvery.type,
                   },
                 })
               }
-              type="number"
+              type='number'
             />
-            <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+            <FormControl variant='outlined' sx={{ m: 1, minWidth: 120 }}>
               <Select
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled"
+                labelId='demo-simple-select-filled-label'
+                id='demo-simple-select-filled'
                 value={custom.repeatEvery.type}
                 onChange={(e) =>
                   setCustom({
@@ -975,56 +1034,56 @@ const RegisterEvents = () => {
             </FormControl>
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography
-              variant="h4"
-              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: "left" }}
+              variant='h4'
+              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: 'left' }}
             >
               Repeat On
             </Typography>
 
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 mt: 3,
                 ml: 10,
               }}
             >
-              {["S", "M", "T", "W", "T", "F", "S"].map((ele, id) => {
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((ele, id) => {
                 return (
                   <div
                     style={
                       !Object.entries(custom.repeatOn)[id][1]
                         ? {
-                            border: "1px solid white",
-                            borderRadius: "20px",
-                            textAlign: "center",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            backgroundColor: "#f0f8ff",
-                            marginLeft: "10px",
-                            fontWeight: "600",
-                            height: "30px",
-                            width: "30px",
+                            border: '1px solid white',
+                            borderRadius: '20px',
+                            textAlign: 'center',
+                            display: 'flex',
+                            cursor: 'pointer',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            backgroundColor: '#f0f8ff',
+                            marginLeft: '10px',
+                            fontWeight: '600',
+                            height: '30px',
+                            width: '30px',
                           }
                         : {
-                            border: "1px solid white",
-                            borderRadius: "20px",
-                            textAlign: "center",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            backgroundColor: "#1e90ff",
-                            color: "white",
-                            fontWeight: "800",
-                            marginLeft: "10px",
-                            cursor: "pointer",
-                            height: "30px",
-                            width: "30px",
+                            border: '1px solid white',
+                            borderRadius: '20px',
+                            textAlign: 'center',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            backgroundColor: '#1e90ff',
+                            color: 'white',
+                            fontWeight: '800',
+                            marginLeft: '10px',
+                            cursor: 'pointer',
+                            height: '30px',
+                            width: '30px',
                           }
                     }
                     key={id}
@@ -1038,66 +1097,66 @@ const RegisterEvents = () => {
               })}
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography
-              variant="h4"
-              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: "left" }}
+              variant='h4'
+              sx={{ m: 3, fontWeight: 100, mr: 1, ml: 0, float: 'left' }}
             >
               Ends
             </Typography>
 
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 mt: 3,
                 ml: 10,
               }}
             >
-              <FormControl component="fieldset">
+              <FormControl component='fieldset'>
                 <RadioGroup
-                  aria-label="gender"
+                  aria-label='gender'
                   defaultValue={custom.ends.type}
-                  name="radio-buttons-group"
+                  name='radio-buttons-group'
                 >
                   <FormControlLabel
                     onClick={() =>
                       setCustom({
                         ...custom,
                         ends: {
-                          type: "Never",
+                          type: 'Never',
                           value: null,
                         },
                       })
                     }
-                    value="Never"
+                    value='Never'
                     control={<Radio />}
-                    label="Never"
+                    label='Never'
                   />
                   <FormControlLabel
                     onClick={() =>
                       setCustom({
                         ...custom,
                         ends: {
-                          type: "On",
-                          value:null,
+                          type: 'On',
+                          value: null,
                         },
                       })
                     }
-                    value="On"
+                    value='On'
                     control={<Radio />}
-                    label="On"
+                    label='On'
                   />
-                   {custom.ends.type === "On" ? (
+                  {custom.ends.type === 'On' ? (
                     <TextField
                       autoFocus
-                      margin="dense"
-                      id="name"
+                      margin='dense'
+                      id='name'
                       value={onDate}
-                      onChange={(e)=>setOnDate(e.target.value)}
-                      sx={{ mb: 2, width: "100%" }}
-                      type="date"
+                      onChange={(e) => setOnDate(e.target.value)}
+                      sx={{ mb: 2, width: '100%' }}
+                      type='date'
                     />
                   ) : null}
                   <FormControlLabel
@@ -1105,64 +1164,70 @@ const RegisterEvents = () => {
                       setCustom({
                         ...custom,
                         ends: {
-                          type: "After",
+                          type: 'After',
                           value: null,
                         },
                       })
                     }
-                    value="After"
+                    value='After'
                     control={<Radio />}
-                    label="After"
+                    label='After'
                   />
-            
-                     {custom.ends.type === "After" ? (
+
+                  {custom.ends.type === 'After' ? (
                     <TextField
                       autoFocus
-                      margin="dense"
-                      id="name"
-                      variant="outlined"
-                      label="occurrences"
+                      margin='dense'
+                      id='name'
+                      variant='outlined'
+                      label='occurrences'
                       value={occur}
-                      onChange={(e)=>setOccur(e.target.value)}
-                      sx={{ mb: 2, width: "100%"}}
-                      type="number"
+                      onChange={(e) => setOccur(e.target.value)}
+                      sx={{ mb: 2, width: '100%' }}
+                      type='number'
                     />
-                  ) : null} 
+                  ) : null}
                 </RadioGroup>
               </FormControl>
-              
             </Box>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button sx={{ color: "gray" }} autoFocus onClick={()=>{
-            setCustom({});
-            setEvent({...event,recurrenceType:"Doesn't repeat"});
-            handleCloseCustom();
-          }}>
+          <Button
+            sx={{ color: 'gray' }}
+            autoFocus
+            onClick={() => {
+              setCustom({});
+              setEvent({ ...event, recurrenceType: "Doesn't repeat" });
+              handleCloseCustom();
+            }}
+          >
             Cancel
           </Button>
-          <Button onClick={()=>{
-           if(custom.ends.type==="On"){
-            setCustom({
-              ...custom,
-              ends: {
-                type: custom.ends.type,
-                value: onDate,
-              },
-            })
-           }
-           if(custom.ends.type==="After"){
-            setCustom({
-              ...custom,
-              ends: {
-                type: custom.ends.type,
-                value: occur,
-              },
-            })
-           }
-           setOpenCustom(false);
-          }} autoFocus>
+          <Button
+            onClick={() => {
+              if (custom.ends.type === 'On') {
+                setCustom({
+                  ...custom,
+                  ends: {
+                    type: custom.ends.type,
+                    value: onDate,
+                  },
+                });
+              }
+              if (custom.ends.type === 'After') {
+                setCustom({
+                  ...custom,
+                  ends: {
+                    type: custom.ends.type,
+                    value: occur,
+                  },
+                });
+              }
+              setOpenCustom(false);
+            }}
+            autoFocus
+          >
             Done
           </Button>
         </DialogActions>
@@ -1170,50 +1235,52 @@ const RegisterEvents = () => {
 
       <Dialog
         open={open}
-        maxWidth="md"
+        maxWidth='md'
         fullWidth
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id="form-dialog-title">Create Event</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Create Event</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             value={event.title}
             fullWidth
             onChange={(e) => setEvent({ ...event, title: e.target.value })}
-            label="Title"
+            label='Title'
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
 
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
             }}
           >
             <Box
               sx={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 mr: 2,
               }}
             >
               <TextField
                 autoFocus
-                margin="dense"
-                id="name"
+                margin='dense'
+                id='name'
                 value={event.startDate}
-                onChange={(e) => setEvent({ ...event, startDate: e.target.value })}
-                sx={{ mb: 2, width: "60%" }}
-                type="date"
+                onChange={(e) =>
+                  setEvent({ ...event, startDate: e.target.value })
+                }
+                sx={{ mb: 2, width: '60%' }}
+                type='date'
               />
               <Autocomplete
                 options={options}
@@ -1221,15 +1288,15 @@ const RegisterEvents = () => {
                 onInputChange={(e, newValue) => {
                   setEvent({ ...event, startTime: newValue });
                 }}
-                sx={{ width: "35%" }}
+                sx={{ width: '35%' }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    id="standard-basic"
-                    variant="standard"
+                    id='standard-basic'
+                    variant='standard'
                     onKeyDown={(e) => {
                       if (
-                        e.key === "Enter" &&
+                        e.key === 'Enter' &&
                         timeArray.findIndex(
                           (o) => o.title === event.startTime
                         ) === -1
@@ -1241,43 +1308,43 @@ const RegisterEvents = () => {
                 )}
               />
             </Box>
-            <h3 >to</h3>
+            <h3>to</h3>
             <Box
               sx={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 ml: 2,
               }}
             >
               <TextField
                 autoFocus
-                margin="dense"
-                id="name"
+                margin='dense'
+                id='name'
                 value={event.endDate}
                 onChange={(e) =>
                   setEvent({ ...event, endDate: e.target.value })
                 }
-                sx={{ mb: 2, width: "60%" }}
-                type="date"
+                sx={{ mb: 2, width: '60%' }}
+                type='date'
               />
               <Autocomplete
                 options={options}
-                sx={{ width: "35%" }}
+                sx={{ width: '35%' }}
                 getOptionLabel={(option) => option}
                 onInputChange={(e, newValue) => {
-                  setEvent({ ...event, endTime:newValue });
+                  setEvent({ ...event, endTime: newValue });
                 }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    id="standard-basic"
-                    variant="standard"
+                    id='standard-basic'
+                    variant='standard'
                     onKeyDown={(e) => {
                       if (
-                        e.key === "Enter" &&
+                        e.key === 'Enter' &&
                         timeArray.findIndex(
                           (o) => o.title === event.endTime
                         ) === -1
@@ -1290,75 +1357,75 @@ const RegisterEvents = () => {
               />
             </Box>
           </Box>
-          <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+          <FormControl variant='filled' sx={{ m: 1, minWidth: 120 }}>
             <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
+              labelId='demo-simple-select-filled-label'
+              id='demo-simple-select-filled'
               value={event.recurrenceType}
               onChange={(e) =>
                 setEvent({ ...event, recurrenceType: e.target.value })
               }
             >
               <MenuItem value={"Doesn't repeat"}>Doesn't repeat</MenuItem>
-              <MenuItem value={"Custom"}>Custom</MenuItem>
+              <MenuItem value={'Custom'}>Custom</MenuItem>
             </Select>
           </FormControl>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             fullWidth
             value={event.email}
             onChange={(e) => setEvent({ ...event, email: e.target.value })}
-            label="Email"
+            label='Email'
             sx={{ mb: 2 }}
-            type="text"
-          />
-     <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            fullWidth
-            value={meetingURL[randomNumber].Attende}
-            onChange={(e)=>setEvent({...event,Attende:e.target.value})}
-            label="Attende"
-            disabled
-            sx={{ mb: 2 }}
-            type="text"
-          />
-            <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            fullWidth
-            value={meetingURL[randomNumber].hostURL}
-            onChange={(e)=>setEvent({...event,hostUrl:e.target.value})}
-            label="Host URL:"
-            disabled
-            sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
+            fullWidth
+            value={meetingURL[randomNumber].Attende}
+            onChange={(e) => setEvent({ ...event, Attende: e.target.value })}
+            label='Attende'
+            disabled
+            sx={{ mb: 2 }}
+            type='text'
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            fullWidth
+            value={meetingURL[randomNumber].hostURL}
+            onChange={(e) => setEvent({ ...event, hostUrl: e.target.value })}
+            label='Host URL:'
+            disabled
+            sx={{ mb: 2 }}
+            type='text'
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
             fullWidth
             value={event.description}
             onChange={(e) =>
               setEvent({ ...event, description: e.target.value })
             }
-            label="Description"
+            label='Description'
             multiline
             rows={4}
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
-          <Button onClick={submit} color="primary">
+          <Button onClick={submit} color='primary'>
             Submit
           </Button>
         </DialogActions>
@@ -1366,157 +1433,150 @@ const RegisterEvents = () => {
       <Dialog
         open={show}
         fullWidth
-        maxWidth="sm"
+        maxWidth='sm'
         onClose={() => {
           setShow(false);
           setSelected(null);
         }}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby='form-dialog-title'
       >
-        
-        <DialogTitle id="form-dialog-title">Event</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Event</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             value={selected?.title}
             fullWidth
-            label="Title"
+            label='Title'
             disabled
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
-         
-         <Box
+
+          <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
             }}
           >
             <Box
               sx={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 mr: 2,
               }}
             >
-              <TextField disabled
+              <TextField
+                disabled
                 autoFocus
-                margin="dense"
-                id="name"
-                value={(new Date(selected?.startDate)).toLocaleDateString()}
-         
-                sx={{ mb: 2, width: "60%" }}
-                type="text"
+                margin='dense'
+                id='name'
+                value={new Date(selected?.startDate).toLocaleDateString()}
+                sx={{ mb: 2, width: '60%' }}
+                type='text'
               />
-            <TextField disabled
+              <TextField
+                disabled
                 autoFocus
-                margin="dense"
-                id="name"
+                margin='dense'
+                id='name'
                 value={selected?.startTime}
-           
-                sx={{ mb: 2, width: "60%" }}
-                type="text"
+                sx={{ mb: 2, width: '60%' }}
+                type='text'
               />
             </Box>
             <h3>to</h3>
             <Box
               sx={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 ml: 2,
               }}
             >
-              <TextField disabled
+              <TextField
+                disabled
                 autoFocus
-                margin="dense"
-                id="name"
-                value={(new Date(selected?.endDate)).toLocaleDateString()}
-                
-                sx={{ mb: 2, width: "60%" }}
-                type="text"
+                margin='dense'
+                id='name'
+                value={new Date(selected?.endDate).toLocaleDateString()}
+                sx={{ mb: 2, width: '60%' }}
+                type='text'
               />
-                     <TextField disabled
+              <TextField
+                disabled
                 autoFocus
-                margin="dense"
-                id="name"
-                value={(selected?.endTime)}
-                
-                sx={{ mb: 2, width: "60%" }}
-                type="text"
+                margin='dense'
+                id='name'
+                value={selected?.endTime}
+                sx={{ mb: 2, width: '60%' }}
+                type='text'
               />
-              
             </Box>
           </Box>
-          <FormControl disabled variant="filled" sx={{ m: 1, minWidth: 120 }}>
+          <FormControl disabled variant='filled' sx={{ m: 1, minWidth: 120 }}>
             <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
+              labelId='demo-simple-select-filled-label'
+              id='demo-simple-select-filled'
               value={selected?.recurrenceType}
-             
             >
               <MenuItem value={"Doesn't repeat"}>Doesn't repeat</MenuItem>
-              <MenuItem value={"Custom"}>Custom</MenuItem>
+              <MenuItem value={'Custom'}>Custom</MenuItem>
             </Select>
           </FormControl>
 
-
-
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             fullWidth
             value={selected?.email}
             disabled
-            label="Email"
+            label='Email'
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
             fullWidth
             value={selected?.Attende}
-   
-            label="Attende"
+            label='Attende'
             disabled
             sx={{ mb: 2 }}
-            type="text"
-          />
-            <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            fullWidth
-            value={selected?.hostUrl}
-           
-            label="Host URL:"
-            disabled
-            sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
+            margin='dense'
+            id='name'
+            fullWidth
+            value={selected?.hostUrl}
+            label='Host URL:'
+            disabled
+            sx={{ mb: 2 }}
+            type='text'
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
             fullWidth
             value={selected?.description}
             disabled
-            label="Description"
+            label='Description'
             multiline
             rows={4}
             sx={{ mb: 2 }}
-            type="text"
+            type='text'
           />
         </DialogContent>
         <DialogActions>
@@ -1525,7 +1585,7 @@ const RegisterEvents = () => {
               setShow(false);
               setSelected(null);
             }}
-            color="primary"
+            color='primary'
           >
             Close
           </Button>
@@ -1533,73 +1593,73 @@ const RegisterEvents = () => {
       </Dialog>
       <Container>
         <Button
-          sx={{ float: "right", mb: 4 }}
-          variant="contained"
+          sx={{ float: 'right', mb: 4 }}
+          variant='contained'
           onClick={handleClickOpen}
         >
           Create a new Event
         </Button>
         <TableContainer sx={{ mt: 4 }} component={Paper}>
-          <Table aria-label="simple table">
+          <Table aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Slno</TableCell>
-                <TableCell align="center">Event Name</TableCell>
-                <TableCell align="center">Start Date </TableCell>
-                <TableCell align="center">End Date </TableCell>
-                <TableCell align="center">Actions</TableCell>
+                <TableCell align='center'>Event Name</TableCell>
+                <TableCell align='center'>Start Date </TableCell>
+                <TableCell align='center'>End Date </TableCell>
+                <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {events.map((e,id) => {
+              {events.map((e, id) => {
                 return (
                   <TableRow key={e._id}>
-                    <TableCell component="th" scope="row">
-                      {id+1}
+                    <TableCell component='th' scope='row'>
+                      {id + 1}
                     </TableCell>
-                    <TableCell align="center">{e.title}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align='center'>{e.title}</TableCell>
+                    <TableCell align='center'>
                       {new Date(e.startDate).toDateString()}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align='center'>
                       {new Date(e.startDate).toDateString()}
                     </TableCell>
-                    <TableCell align="center">
-                      <Tooltip title="Approve">
+                    <TableCell align='center'>
+                      <Tooltip title='Approve'>
                         <IconButton
-                          color="primary"
+                          color='primary'
                           onClick={() => {
                             setSelected(e);
                             setShow(true);
                           }}
-                          aria-label="upload picture"
-                          component="span"
+                          aria-label='upload picture'
+                          component='span'
                         >
                           <VisibilityIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Edit">
+                      <Tooltip title='Edit'>
                         <IconButton
-                          color="secondary"
+                          color='secondary'
                           onClick={() => {
                             console.log(e);
                             setEventEdit(e);
                             setOpenEdit(true);
                           }}
-                          aria-label="upload picture"
-                          component="span"
+                          aria-label='upload picture'
+                          component='span'
                         >
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Delete">
+                      <Tooltip title='Delete'>
                         <IconButton
-                          color="secondary"
+                          color='secondary'
                           onClick={() => {
                             handleDelete(e);
                           }}
-                          aria-label="upload picture"
-                          component="span"
+                          aria-label='upload picture'
+                          component='span'
                         >
                           <DeleteIcon />
                         </IconButton>
