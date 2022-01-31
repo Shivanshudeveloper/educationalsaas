@@ -1,23 +1,25 @@
 const AWS = require('aws-sdk');
 require('dotenv').config();
-
 AWS.config.update({
   accessKeyId: process.env.ACCESS_KEY,
   secretAccessKey: process.env.SECRET_KEY,
-  region: 'eu-central-1',
+  region: 'ap-south-1',
 });
 var s3 = new AWS.S3();
-
 const deleteVideo = async (req, res) => {
   try {
     const { url } = req.body;
-    console.log(url);
+    let uurl = url;
     const params = {
       Bucket: 'evanalin',
-      Key: url.split('/')[4],
+      Key: uurl.replace('https://evanalin.s3.ap-south-1.amazonaws.com/', ''),
     };
     const deleteVideo = await s3.deleteObject(params).promise();
-    res.status(200).json(url);
+   if (deleteVideo) {
+      res.status(200).json({
+        message: 'Video Deleted Successfully',
+      });
+    }
   } catch (err) {
     console.log(err);
   }
