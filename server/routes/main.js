@@ -28,11 +28,13 @@ const ShareRecording_Model = require('../models/SharedRecording');
 const Plans_Model = require('../models/Plans');
 const Attendee_Model = require('../models/Attendee');
 const Token_Model = require('../models/Token');
+const Video_Model = require('../models/Video');
 
 var schedule = require('node-schedule');
 // const { findById } = require("../models/Class");
 const emailId = require('../config/keys').Email;
 const emailPassword = require('../config/keys').Password;
+const req = require('express/lib/request');
 
 router.get('/test', (req, res) => {
   res.send('Working');
@@ -690,6 +692,7 @@ router.post('/deletetrainingteacher/:id', async (req, res) => {
 // ///////////////////////////
 router.post('/addevent', async (req, res) => {
   const { event, userEmail, userName } = req.body;
+  // console.log(req.body);
   // Using nodemailer to send email
   // let transporter = nodemailer.createTransport({
   //   host: "evanalin.com",
@@ -730,8 +733,9 @@ router.post('/addevent', async (req, res) => {
 
   // Mail using sendgrid
   try {
-    const Event = new Event_Model({ ...event, userEmail: userEmail });
-    await Event.save();
+    const Event = await Event_Model.create({ ...event, userEmail: userEmail });
+    // await Event.save();
+    console.log(Event);
     const msg = {
       // to: [req.body.event.email], // Change to your recipient
       to: [req.body.event.email],
@@ -762,6 +766,7 @@ router.post('/addevent', async (req, res) => {
       });
     res.send(Event);
   } catch (err) {
+    console.log(err.message);
     res.send(err);
   }
 });
@@ -770,7 +775,6 @@ router.get('/getevents/:userEmail', async (req, res) => {
   const { userEmail } = req.params;
   try {
     const events = await Event_Model.find({ userEmail: userEmail });
-
     res.status(201).send(events);
   } catch (err) {
     res.send(err);
@@ -927,6 +931,31 @@ schedule.scheduleJob('0 0 * * *', async () => {
 router.get('/listvideos/', aws_con.listVideos);
 router.get('/listvideos/:date', aws_con.listVideos);
 router.delete('/deletevideo', aws_con.deleteVideo);
+
+//save video url endpoint
+router.get('/getVideoUrl/:title', async (req, res) => {
+  // console.log();
+  // console.log(title);
+  try {
+    const video = await Video_Model.findOne({ title: req.params.title });
+    if (!video) return res.status(404).send({ message: 'Video not found' });
+    console.log('video', video);
+    res.status(200).send({ message: 'success', data: video });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+router.post('/setVideoUrl', async (req, res) => {
+  const { title, url, uuid } = req.body;
+  try {
+    const video = await Video_Model.create({ title, url, uuid });
+    // await video.save();
+    console.log(video);
+    res.status(201).send({ message: 'Video Saved', data: video });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 // ATTENDANCE ROUTES
 router.post('/attendance/clock-in', async (req, res) => {
   const { id } = req.body;

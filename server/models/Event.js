@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const EventSchema = new mongoose.Schema({
   userEmail: {
     type: String,
-    required: true,
+    // required: true,
   },
   title: {
     type: String,
@@ -11,44 +11,49 @@ const EventSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   Attende: {
     type: String,
-    default:"https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af",
+    default:
+      'https://evaliain-video.vercel.app/30d18002-89c3-4e98-ba2b-4541173377af',
   },
-  hostUrl:{
-    type:String,
-    default:"https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2"
+  hostUrl: {
+    type: String,
+    default:
+      'https://evaliain-video.vercel.app/79441dc6-0cd7-4e5c-9342-91beb66d2fa2',
   },
-  startDate:{
-    type:String
+  startDate: {
+    type: String,
   },
-  endDate:{
-    type:String
+  endDate: {
+    type: String,
   },
-  startTime:{
-    type:String,
-    default:"00:00am"
+  startTime: {
+    type: String,
+    default: '00:00am',
   },
-  endTime:{
-    type:String,
-    default:'00:00am'
+  endTime: {
+    type: String,
+    default: '00:00am',
   },
   description: {
     type: String,
   },
-  recurrenceType:{
-    type:String,
-    default:"Doesn't repeat"
+  recurrenceType: {
+    type: String,
+    default: "Doesn't repeat",
   },
-  recurrenceValue:{
-    type:Object
+  recurrenceValue: {
+    type: Object,
+  },
+  downloadUrl: {
+    type: String,
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
-const Event = mongoose.model("Event", EventSchema);
+const Event = mongoose.model('Event', EventSchema);
 module.exports = Event;

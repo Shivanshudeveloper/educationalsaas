@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { v4 as uuidv4 } from 'uuid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -251,6 +251,8 @@ const RegisterEvents = () => {
   const [events, setEvents] = useState([]);
   const [openEditCustom, setOpenEditCustom] = useState(false);
   const [randomNumber, setRandomNumber] = useState(0);
+  const [videoURL, setvideoURL] = useState(null);
+
   const [customEdit, setCustomEdit] = useState({
     repeatEvery: {
       count: 0,
@@ -275,23 +277,32 @@ const RegisterEvents = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  // On file upload (click the upload button)
-  const onFileUpload = () => {
-    // Create an object of formData
-    const formData = new FormData();
-    if (selectedFile == null) return;
-    storage
-      .ref(`${selectedFile.name}`)
-      .put(selectedFile)
-      .on('state_changed', alert('success'), alert);
-    // Update the formData object
-    // formData.append('myFile', selectedFile, selectedFile.name);
-    // Details of the uploaded file
-    // console.log(selectedFile);
-    // Request made to the backend api
-    // Send formData object
-    // axios.post('api/uploadfile', formData);
-  };
+  // // On file upload (click the upload button)
+  // const onFileUpload = async (title) => {
+  //   // Create an object of formData
+  //   // if (selectedFile == null) return;
+  //   // const uuid = uuidv4();
+  //   // var storageRef = storage.ref(title);
+  //   // console.log(storageRef);
+  //   // storageRef.put(selectedFile).then((snapshot) => {
+  //   //   console.log(snapshot);
+  //   // });
+  //   // var video;
+  //   // async () => {
+  //   // var uniquetwoKey = uuidv4();
+  //   // const filePath = await storageRef.getDownloadURL();
+  //   // video = {
+  //   //   uuid: uuid,
+  //   //   title: title,
+  //   //   url: filePath,
+  //   //   date: new Date(),
+  //   //   // };
+  //   // };
+  //   // axios
+  //   //   .post(`${API_SERVICE}/setVideoUrl`, video)
+  //   //   .then((res) => console.log('File uploaded'))
+  //   //   .catch((err) => console.error(err));
+  // };
 
   const handleClickOpen = () => {
     setRandomNumber(Math.floor(Math.random() * 4));
@@ -315,10 +326,37 @@ const RegisterEvents = () => {
   };
   const submit = async () => {
     console.log(event);
-    await axios.post(`${API_SERVICE}/addevent`, {
+    const uuid = uuidv4();
+    var filePath = null;
+    var storageRef = storage.ref(uuid + event.title);
+    if (selectedFile !== null) {
+      // var storageRef = storage.ref(uuid + event.title);
+      console.log(storageRef);
+      storageRef.put(selectedFile).then(async (snapshot) => {
+        console.log(snapshot);
+        var video;
+        filePath = await storageRef.getDownloadURL();
+        setvideoURL(filePath);
+        video = {
+          uuid: uuid,
+          title: event.title,
+          url: filePath,
+          date: new Date(),
+          // };
+        };
+
+        axios
+          .post(`${API_SERVICE}/setVideoUrl`, video)
+          .then((res) => console.log(res))
+          .catch((err) => console.error(err));
+      });
+    }
+    console.log('Adding Event');
+    axios.post(`${API_SERVICE}/addevent`, {
       event: {
         ...event,
         recurrenceValue: custom,
+        downloadUrl: filePath,
         Attende: meetingURL[randomNumber].Attende,
         hostUrl: meetingURL[randomNumber].hostURL,
       },
@@ -326,6 +364,7 @@ const RegisterEvents = () => {
       userName,
     });
     setOpen(false);
+    setSelectedFile(null);
     setEvent({
       title: '',
       startDate: null,
@@ -339,6 +378,7 @@ const RegisterEvents = () => {
       Attende: '',
       hostUrl: '',
     });
+    setvideoURL(null);
     setEvents((old) => [
       ...old,
       {
@@ -352,13 +392,41 @@ const RegisterEvents = () => {
     setOpenEditCustom(false);
 
     setOpenEdit(false);
+    if (selectedFile !== null) {
+      const uuid = uuidv4();
+      var storageRef = storage.ref(uuid + event.title);
+      console.log(storageRef);
+      storageRef.put(selectedFile).then(async (snapshot) => {
+        console.log(snapshot);
+        var video;
+        const filePath = await storageRef.getDownloadURL();
+        setvideoURL(filePath);
+        video = {
+          uuid: uuid,
+          title: event.title,
+          url: filePath,
+          date: new Date(),
+          // };
+        };
+
+        await axios
+          .post(`${API_SERVICE}/setVideoUrl`, video)
+          .then((res) => console.log(res))
+          .catch((err) => console.error(err));
+      });
+    }
     await axios.patch(`${API_SERVICE}/updateevent`, {
       event: { ...eventEdit, recurrenceValue: customEdit },
     });
     let EEvents = [...events];
     let index = EEvents.findIndex((ele) => ele._id === eventEdit._id);
-    EEvents[index] = { ...eventEdit, recurrenceValue: customEdit };
+    EEvents[index] = {
+      ...eventEdit,
+      recurrenceValue: customEdit,
+      downloadUrl: videoURL,
+    };
     setEvents(EEvents);
+    // setSelectedFile(null);
     setEventEdit({
       title: '',
       startDate: null,
@@ -370,6 +438,7 @@ const RegisterEvents = () => {
       recurrenceType: "Doesn't repeat",
       recurrenceValue: {},
     });
+    setvideoURL(null);
   };
   useEffect(() => {
     const getEvent = async () => {
@@ -942,7 +1011,9 @@ const RegisterEvents = () => {
             <div>
               <h2>File Details:</h2>
               <p>File Name: {selectedFile.name}</p>
-              <button onClick={onFileUpload}>Upload</button>
+              {/* <button onClick={() => onFileUpload(eventEdit.title)}>
+                Upload
+              </button> */}
               {/* <p>File Type: {this.state.selectedFile.type}</p> */}
               {/* <p>
                 Last Modified:{' '}
@@ -1420,6 +1491,30 @@ const RegisterEvents = () => {
             sx={{ mb: 2 }}
             type='text'
           />
+          {selectedFile ? (
+            <div>
+              <h2>File Details:</h2>
+              <p>File Name: {selectedFile.name}</p>
+              {/* <button onClick={onFileUpload}>Upload</button> */}
+              {/* <p>File Type: {this.state.selectedFile.type}</p> */}
+              {/* <p>
+                Last Modified:{' '}
+                {this.state.selectedFile.lastModifiedDate.toDateString()}
+              </p> */}
+            </div>
+          ) : (
+            <label class='file'>
+              <input
+                type='file'
+                id='file'
+                aria-label='File upload'
+                onChange={onFileChange}
+              />
+
+              <span class='file-custom'></span>
+            </label>
+            // {/* <Input type='file'  /> */}
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>

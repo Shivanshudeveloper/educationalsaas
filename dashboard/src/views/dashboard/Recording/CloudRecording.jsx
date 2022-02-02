@@ -91,7 +91,7 @@ const CloudRecording = () => {
   const deleteVideo = (url) => {
     // console.log(url);
     axios
-      .delete(`${API_SERVICE}/deletevideo`, {
+      .delete(`${API_SERVICE}/deletevideo/`, {
         url,
       })
       .then((res) => console.log('Deleted'))
@@ -177,7 +177,14 @@ const CloudRecording = () => {
                         <IconButton
                           color='primary'
                           target='_blank'
-                          onClick={() => deleteVideo(recording.url)}
+                          onClick={() =>
+                            axios
+                              .delete(`${API_SERVICE}/deletevideo/`, {
+                                data: { url: recording.url },
+                              })
+                              .then((res) => console.log('Deleted'))
+                              .catch((err) => console.error(err))
+                          }
                         >
                           <DeleteIcon />
                         </IconButton>

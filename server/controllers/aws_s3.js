@@ -7,7 +7,7 @@ AWS.config.update({
 });
 var s3 = new AWS.S3();
 const deleteVideo = async (req, res) => {
-  // console.log('In delete video controller');
+  console.log('In delete video controller');
   try {
     const { url } = req.body;
     console.log(req.body);
