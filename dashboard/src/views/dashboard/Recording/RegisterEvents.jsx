@@ -166,27 +166,27 @@ const timeArray = [
 const meetingURL = [
   {
     Attende:
-      'https://evaliain-video.vercel.app/6046ecb6-25de-4d8d-be4a-e6459d3477d4',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/ee544e87-5a8d-4f2b-9233-d685ce02a9b7',
     hostURL:
-      'https://evaliain-video.vercel.app/5dff2a12-811a-4e64-bb27-1c5f23711ac3',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/78d1d610-052a-435e-8eba-a149ca073f7e',
   },
   {
     Attende:
-      'https://evaliain-video.vercel.app/807407b7-6242-4fa3-b73e-986d90e0aadb',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/0f90d96e-810b-455e-a3e0-778b110f0702',
     hostURL:
-      'https://evaliain-video.vercel.app/03984719-865c-4680-9ba9-1d2f871b7494',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/b5385407-c67b-45de-8099-868ca1a1fa43',
   },
   {
     Attende:
-      'https://evaliain-video.vercel.app/b2acc357-5c2e-41b7-8a14-bc3d9c6e341c',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/c0593bc8-905c-40a1-ac0d-b046dc15c4bb',
     hostURL:
-      'https://evaliain-video.vercel.app/6d4eaa51-70c1-4f7a-b99e-7317d6032f55',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/bcb4d68b-ba57-4a67-8ca4-c93667b5c5da',
   },
   {
     Attende:
-      'https://evaliain-video.vercel.app/e8b8571d-c9b8-4696-9db9-b2970a4f5ca0',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/884afcfe-4766-4968-bdb1-b1af7c702bdc',
     hostURL:
-      'https://evaliain-video.vercel.app/8ca9dd97-10a1-4647-8ab0-456284d4a122',
+      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/5332e8a5-4676-4aef-932e-2febd67faf39',
   },
 ];
 const items = ['days', 'weeks', 'years', 'months'];
