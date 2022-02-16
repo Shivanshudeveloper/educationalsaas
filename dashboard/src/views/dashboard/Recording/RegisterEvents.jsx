@@ -166,27 +166,27 @@ const timeArray = [
 const meetingURL = [
   {
     Attende:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/ee544e87-5a8d-4f2b-9233-d685ce02a9b7',
+      'https://videoconference.evanalin.com/ee544e87-5a8d-4f2b-9233-d685ce02a9b7',
     hostURL:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/78d1d610-052a-435e-8eba-a149ca073f7e',
+      'https://videoconference.evanalin.com/78d1d610-052a-435e-8eba-a149ca073f7e',
   },
   {
     Attende:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/0f90d96e-810b-455e-a3e0-778b110f0702',
+      'https://videoconference.evanalin.com/0f90d96e-810b-455e-a3e0-778b110f0702',
     hostURL:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/b5385407-c67b-45de-8099-868ca1a1fa43',
+      'https://videoconference.evanalin.com/b5385407-c67b-45de-8099-868ca1a1fa43',
   },
   {
     Attende:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/c0593bc8-905c-40a1-ac0d-b046dc15c4bb',
+      'https://videoconference.evanalin.com/c0593bc8-905c-40a1-ac0d-b046dc15c4bb',
     hostURL:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/bcb4d68b-ba57-4a67-8ca4-c93667b5c5da',
+      'https://videoconference.evanalin.com/bcb4d68b-ba57-4a67-8ca4-c93667b5c5da',
   },
   {
     Attende:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/884afcfe-4766-4968-bdb1-b1af7c702bdc',
+      'https://videoconference.evanalin.com/884afcfe-4766-4968-bdb1-b1af7c702bdc',
     hostURL:
-      'https://ckywz2mux139026qojn3l9np1j5-fue8ppzuo-hariom-ojha23.vercel.app/5332e8a5-4676-4aef-932e-2febd67faf39',
+      'https://videoconference.evanalin.com/5332e8a5-4676-4aef-932e-2febd67faf39',
   },
 ];
 const items = ['days', 'weeks', 'years', 'months'];
