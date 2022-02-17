@@ -5,6 +5,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_THEME_MODE } from "store/actions";
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+
 // material-ui
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { Avatar, Box, ButtonBase, Button, IconButton } from "@material-ui/core";
@@ -19,6 +26,64 @@ import NotificationSection from "./NotificationSection";
 import { IconMenu2 } from "@tabler/icons";
 import { getSessionStorageOrDefault } from "utils/getSessionStorageOrDefault";
 import { API_SERVICE } from "config";
+
+
+
+const meetingURL = [
+  {
+    Attende:
+      'https://videoconference.evanalin.com/ee544e87-5a8d-4f2b-9233-d685ce02a9b7',
+    hostURL:
+      'https://videoconference.evanalin.com/78d1d610-052a-435e-8eba-a149ca073f7e',
+  },
+  {
+    Attende:
+      'https://videoconference.evanalin.com/0f90d96e-810b-455e-a3e0-778b110f0702',
+    hostURL:
+      'https://videoconference.evanalin.com/b5385407-c67b-45de-8099-868ca1a1fa43',
+  },
+  {
+    Attende:
+      'https://videoconference.evanalin.com/c0593bc8-905c-40a1-ac0d-b046dc15c4bb',
+    hostURL:
+      'https://videoconference.evanalin.com/bcb4d68b-ba57-4a67-8ca4-c93667b5c5da',
+  },
+  {
+    Attende:
+      'https://videoconference.evanalin.com/884afcfe-4766-4968-bdb1-b1af7c702bdc',
+    hostURL:
+      'https://videoconference.evanalin.com/5332e8a5-4676-4aef-932e-2febd67faf39',
+  },
+
+  {
+    Attende:
+      'https://videoconference.evanalin.com/df07544e-f667-40be-b18f-c5e5833fec14',
+    hostURL:
+      'https://videoconference.evanalin.com/f8542243-6a6d-4683-b66a-7f1b36638322',
+  },
+
+  {
+    Attende:
+      'https://videoconference.evanalin.com/3886e3d5-665d-4708-8c1c-8b6aad9896f5',
+    hostURL:
+      'https://videoconference.evanalin.com/bcd4e71d-5509-4f5d-ab7a-50f20e5701a4',
+  },
+
+  {
+    Attende:
+      'https://videoconference.evanalin.com/e7c7e192-3a0f-4dca-81f2-2befbc8d5d8c',
+    hostURL:
+      'https://videoconference.evanalin.com/35513acf-4f8f-45b6-a858-d7023644b4f2',
+  },
+
+  {
+    Attende:
+      'https://videoconference.evanalin.com/799cf594-0f82-4550-a842-090f048408ae',
+    hostURL:
+      'https://videoconference.evanalin.com/bdfa9e2e-0477-40f0-9b49-1d7137a55677',
+  },
+];
+
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +113,30 @@ const useStyles = makeStyles((theme) => ({
 // ===========================|| MAIN NAVBAR / HEADER ||=========================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
+
+  const [open, setOpen] = React.useState(false);
+  const [meetlink, setmeetlink] = React.useState({
+    Attende: '',
+    hostURL: ''
+  });
+
+
+  const handleClickOpen = () => {
+    const random = Math.floor(Math.random() * meetingURL.length);
+
+    console.log(meetingURL[random].Attende);
+
+    setmeetlink({
+      Attende: meetingURL[random].Attende,
+      hostURL: meetingURL[random].hostURL
+    })
+
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -84,6 +173,37 @@ const Header = ({ handleLeftDrawerToggle }) => {
   }, [userid]);
   return (
     <>
+      <Dialog
+        open={open}
+        fullWidth
+        maxWidth='md'
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Meet
+        </DialogTitle>
+        <DialogContent>
+          <center>
+            <img alt='Logo' style={{ width: '100px' }} src='https://res.cloudinary.com/dx9dnqzaj/image/upload/v1645080275/education/image_5_sojsbd.png' />
+          </center>
+
+          <h2>Host URL</h2>
+          <TextField value={meetlink.hostURL} sx={{ mb: 2 }} fullWidth disabled label='' />
+
+
+          <h2>Attende URL</h2>
+          <TextField value={meetlink.Attende} sx={{ mb: 2 }} fullWidth disabled label='' />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
       {/* logo & toggler button */}
       <div className={classes.boxContainer}>
         <Box
@@ -125,7 +245,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       </IconButton>
 
       <IconButton
-        href="https://evanalinvideoconference.netlify.app"
+        onClick={handleClickOpen}
         target="_blank"
         sx={{ mr: 1 }}
         color="inherit"
