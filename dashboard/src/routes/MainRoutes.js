@@ -33,6 +33,7 @@ import PlansPricing from "views/dashboard/PlansPricing";
 import Attendance from "views/dashboard/Others/Attendance";
 import AttendeMeeting from "views/pages/AttendeMeeting";
 
+
 // dashboard routing
 const DashboardDefault = Loadable(
   lazy(() => import("views/dashboard/Default"))
@@ -191,6 +192,8 @@ const MainRoutes = {
       element: <SamplePage />,
     },
   ],
+
+
 };
 
 export default MainRoutes;
