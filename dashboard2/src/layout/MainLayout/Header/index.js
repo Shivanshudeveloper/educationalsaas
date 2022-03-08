@@ -60,7 +60,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
   const toggleColorMode = () => {
     setMode(mode === "light" ? "dark" : "light");
   };
-  const [logo, setLogo] = useState("");
+  const [logo, setLogo] = useState("https://res.cloudinary.com/dx9dnqzaj/image/upload/v1645080275/education/image_5_sojsbd.png");
 
   useEffect(() => {
     const changeTheme = async () => {
@@ -78,7 +78,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
     fetch(`${API_SERVICE}/getuser/${userid}`)
       .then((res) => res.json())
       .then((res) => {
-        setLogo(res[0].logo);
+        // setLogo(res[0].logo);
       });
   }, [userid]);
   return (
@@ -89,7 +89,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
           component="span"
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
         >
-          <img src={logo} height="50px" width="100px" />
+          <img src={logo} height="70px" width="40%" />
         </Box>
         <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
           <Avatar

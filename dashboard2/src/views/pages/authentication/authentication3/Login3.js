@@ -50,7 +50,7 @@ const Login = () => {
                     }}
                   >
                     <img
-                      src={process.env.PUBLIC_URL + "/logo.png"}
+                      src="https://res.cloudinary.com/dx9dnqzaj/image/upload/v1645080275/education/image_5_sojsbd.png"
                       height="50%"
                       width="50%"
                     />
