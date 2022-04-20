@@ -133,10 +133,10 @@ const Header = ({ handleLeftDrawerToggle }) => {
       </IconButton>
 
       {/* notification & profile */}
-      <Button variant="outlined">Upgrade Plan</Button>
-      <Button style={{ marginLeft: "20px" }} variant="contained">
+      <Button href="/joinclass" variant="outlined">Join Class</Button>
+      {/* <Button style={{ marginLeft: "20px" }} variant="contained">
         Invite People
-      </Button>
+      </Button> */}
 
       <NotificationSection />
       <ProfileSection />
