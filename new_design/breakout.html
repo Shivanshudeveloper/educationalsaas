@@ -18,28 +18,26 @@
 	<link rel="stylesheet" href="css2.css?family=Heebo:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap">
 
 	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/vendor/	font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/apexcharts/css/apexcharts.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/choices/css/choices.min.css">
 
 	<!-- Theme CSS -->
 	<link id="style-switch" rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-	<link rel="stylesheet" href="h5p/h5p.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
 
-<!-- Header END -->
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
 	
 <!-- =======================
-Page Banner START -->
+Main Banner START -->
 <section class="pt-0">
 	<!-- Main banner background image -->
 	<div class="container-fluid px-0">
@@ -92,10 +90,10 @@ Page Banner START -->
 	</div>
 </section>
 <!-- =======================
-Page Banner END -->
+Main Banner END -->
 
 <!-- =======================
-Page content START -->
+Inner part START -->
 <section class="pt-0">
 	<div class="container">
 		<div class="row">
@@ -135,335 +133,248 @@ Page content START -->
 				<!-- Responsive offcanvas body END -->
 			</div>
 			<!-- Left sidebar END -->
-        
+
 			<!-- Main content START -->
 			<div class="col-xl-9">
+				<!-- Card START -->
+				<div class="card border bg-transparent rounded-3">
+					<!-- Card header START -->
+					<div class="card-header bg-transparent border-bottom">
+						<h3 class="mb-0">Break out rooms</h3>
+					</div>
+					<!-- Card header END -->
 
-				<!-- Counter boxes START -->
-				<div class="row g-4">
-					<!-- Counter item -->
-					<div class="col-sm-6 col-lg-4">
-						<div class="d-flex justify-content-center align-items-center p-4 bg-warning bg-opacity-15 rounded-3">
-							<span class="display-6 text-warning mb-0"><i class="fas fa-tv fa-fw"></i></span>
-							<div class="ms-4">
-								<div class="d-flex">
-									<h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="25" data-purecounter-delay="200">0</h5>
-								</div>
-								<span class="mb-0 h6 fw-light">Total Courses</span>
-							</div>
-						</div>
+					<!-- Card body START -->
+					<div class="card-body">
+                        <input type="text" placeholder="Name of Breakout Room" class="form-control"/>
+                        <button type="button" class="btn btn-primary mt-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Create
+                        </button>
+
+						<br />
+
+						<table class="table">
+							<thead>
+							  <tr>
+								<th scope="col">Sl no.</th>
+								<th scope="col">Break Out Room Title</th>
+								<th scope="col">Number of People</th>
+								<th scope="col">Action</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<th scope="row">1</th>
+								<td>Test 1</td>
+								<td>3</td>
+								<td>
+									<button data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-sm btn-outline-primary">
+										View
+									</button>
+								</td>
+							  </tr>
+							  <tr>
+								<th scope="row">2</th>
+								<td>Test 2</td>
+								<td>3</td>
+								<td>
+									<button data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-sm btn-outline-primary">
+										View
+									</button>
+								</td>
+							  </tr>
+							  <tr>
+								<th scope="row">3</th>
+								<td>Test 3</td>
+								<td>3</td>
+								<td>
+									<button data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-sm btn-outline-primary">
+										View
+									</button>
+								</td>
+							  </tr>
+							  <tr>
+								<th scope="row">4</th>
+								<td>Test 4</td>
+								<td>3</td>
+								<td>
+									<button data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-sm btn-outline-primary">
+										View
+									</button>
+								</td>
+							  </tr>
+							</tbody>
+						  </table>
+
 					</div>
-					<!-- Counter item -->
-					<div class="col-sm-6 col-lg-4">
-						<div class="d-flex justify-content-center align-items-center p-4 bg-purple bg-opacity-10 rounded-3">
-							<span class="display-6 text-purple mb-0"><i class="fas fa-user-graduate fa-fw"></i></span>
-							<div class="ms-4">
-								<div class="d-flex">
-									<h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="25" data-purecounter-delay="200">0</h5>
-									<span class="mb-0 h5">K+</span>
-								</div>
-								<span class="mb-0 h6 fw-light">Total Students</span>
-							</div>
-						</div>
-					</div>
-					<!-- Counter item -->
-					<div class="col-sm-6 col-lg-4">
-						<div class="d-flex justify-content-center align-items-center p-4 bg-info bg-opacity-10 rounded-3">
-							<span class="display-6 text-info mb-0"><i class="fas fa-gem fa-fw"></i></span>
-							<div class="ms-4">
-								<div class="d-flex">
-									<h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="12" data-purecounter-delay="300">0</h5>
-									<span class="mb-0 h5">K</span>
-								</div>
-								<span class="mb-0 h6 fw-light">Enrolled Students</span>
-							</div>
-						</div>
-					</div>
+					<!-- Card body START -->
 				</div>
-				<!-- Counter boxes END -->
-                   
-				<div class="card-header bg-transparent border-bottom"><iframe src="https://h5p.org/h5p/embed/612" width="1090" height="639" frameborder="0" allowfullscreen="allowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" title="Course Presentation"></iframe><script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script></div>
-
-				<!-- Course List table START -->
-				<div class="row">
-					<div class="col-12">
-						<div class="card border bg-transparent rounded-3 mt-5">
-							<!-- Card header START -->
-							<div class="card-header bg-transparent border-bottom">
-								<div class="d-sm-flex justify-content-sm-between align-items-center">
-									<h3 class="mb-2 mb-sm-0">Classes</h3>
-									<a href="#" class="btn btn-sm btn-primary-soft mb-0">View all</a>
-								</div>
-							</div>
-							<!-- Card header END -->
-
-							<!-- Card body START -->
-							<div class="card-body">
-								<div class="table-responsive border-0 rounded-3">
-									<!-- Table START -->
-									<table class="table table-dark-gray align-middle p-4 mb-0">
-										<!-- Table head -->
-										<thead>
-											<tr>
-												<th scope="col" class="border-0 rounded-start">Course Name</th>
-												<th scope="col" class="border-0">Selling</th>
-												<th scope="col" class="border-0">Period</th>
-												<th scope="col" class="border-0 rounded-end">Action</th>
-											</tr>
-										</thead>
-										<!-- Table body START -->
-										<tbody>
-                      
-											<!-- Table item -->
-											<tr>
-												<!-- Course item -->
-												<td>
-													<div class="d-flex align-items-center">
-														<!-- Image -->
-														<div class="w-60px">
-															<img src="assets/images/courses/4by3/08.jpg" class="rounded" alt="">
-														</div>
-														<!-- Title -->
-														<h6 class="mb-0 ms-2 table-responsive-title">	
-															<a href="#">Building Scalable APIs with GraphQL</a>
-														</h6>
-													</div>
-												</td>
-												<!-- Selling item -->
-												<td>34</td>
-												<!-- Amount item -->
-												<!-- Period item -->
-												<td>
-													<span class="badge bg-primary bg-opacity-10 text-primary">9 months</span>
-												</td>
-												<!-- Action item -->
-												<td>
-													<button class="btn btn-sm btn-success-soft mb-0">Join</button>
-												</td>
-											</tr>
-	
-											<!-- Table item -->
-											<tr>
-												<!-- Course item -->
-												<td>
-													<div class="d-flex align-items-center">
-														<!-- Image -->
-														<div class="w-60px">
-															<img src="assets/images/courses/4by3/10.jpg" class="rounded" alt="">
-														</div>
-														<!-- Title -->
-														<h6 class="mb-0 ms-2 table-responsive-title">	
-															<a href="#">Bootstrap 5 From Scratch</a>
-														</h6>
-													</div>
-												</td>
-												<!-- Selling item -->
-												<td>45</td>
-												<!-- Amount item -->
-												<!-- Period item -->
-												<td>
-													<span class="badge bg-primary bg-opacity-10 text-primary">6 months</span>
-												</td>
-												<!-- Action item -->
-												<td>
-													<button class="btn btn-sm btn-success-soft mb-0">Join</button>
-												</td>
-											</tr>
-	
-											<!-- Table item -->
-											<tr>
-												<!-- Course item -->
-												<td>
-													<div class="d-flex align-items-center">
-														<!-- Image -->
-														<div class="w-60px">
-															<img src="assets/images/courses/4by3/02.jpg" class="rounded" alt="">
-														</div>
-														<!-- Title -->
-														<h6 class="mb-0 ms-2 table-responsive-title">	
-															<a href="#">Graphic Design Masterclass</a>
-														</h6>
-													</div>
-												</td>
-												<!-- Selling item -->
-												<td>21</td>
-												<!-- Amount item -->
-												<!-- Period item -->
-												<td>
-													<span class="badge bg-primary bg-opacity-10 text-primary">4 months</span>
-												</td>
-												<!-- Action item -->
-												<td>
-													<button class="btn btn-sm btn-success-soft mb-0">Join</button>
-												</td>
-											</tr>
-	
-											<!-- Table item -->
-											<tr>
-												<!-- Course item -->
-												<td>
-													<div class="d-flex align-items-center">
-														<!-- Image -->
-														<div class="w-60px">
-															<img src="assets/images/courses/4by3/04.jpg" class="rounded" alt="">
-														</div>
-														<!-- Title -->
-														<h6 class="mb-0 ms-2 table-responsive-title">	
-															<a href="#">Learn Invision</a>
-														</h6>
-													</div>
-												</td>
-												<!-- Selling item -->
-												<td>28</td>
-												<!-- Amount item -->
-												<!-- Period item -->
-												<td>
-													<span class="badge bg-primary bg-opacity-10 text-primary">8 months</span>
-												</td>
-												<!-- Action item -->
-												<td>
-													<button class="btn btn-sm btn-success-soft mb-0">Join</button>
-												</td>
-											</tr>
-	
-											<!-- Table item -->
-											<tr>
-												<!-- Course item -->
-												<td>
-													<div class="d-flex align-items-center">
-														<!-- Image -->
-														<div class="w-60px">
-															<img src="assets/images/courses/4by3/06.jpg" class="rounded" alt="">
-														</div>
-														<!-- Title -->
-														<h6 class="mb-0 ms-2 table-responsive-title">	
-															<a href="#">Angular – The Complete Guider</a>
-														</h6>
-													</div>
-												</td>
-												<!-- Selling item -->
-												<td>38</td>
-												<!-- Amount item -->
-												<!-- Period item -->
-												<td>
-													<span class="badge bg-primary bg-opacity-10 text-primary">1 year</span>
-												</td>
-												<!-- Action item -->
-												<td>
-													<button class="btn btn-sm btn-success-soft mb-0">Join</button>
-												</td>
-											</tr>
-										</tbody>
-										<!-- Table body END -->
-									</table>
-									<!-- Table END -->
-								</div>
-
-								<!-- Pagination -->
-								<div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-3">
-									<!-- Content -->
-									<p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
-									<!-- Pagination -->
-									<nav class="d-flex justify-content-center mb-0" aria-label="navigation">
-										<ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-											<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
-											<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-											<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
-											<li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
-											<li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
-										</ul>
-									</nav>
-								</div>
-							</div>
-							<!-- Card body START -->
-						</div>
-					</div>
-				</div>
-				<!-- Course List table END -->
+				<!-- Card END -->
 			</div>
 			<!-- Main content END -->
 		</div><!-- Row END -->
 	</div>
 
-    <div class="container">
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create Breakout Groups</button>
-      
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-          <div class="modal-dialog">
-          
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Breakout Rooms</h4>
-              </div>
-              <input type="radio" id="html" name="fav_language" value="HTML">
-<label for="html">Assign Automaticlly</label>
-<input type="radio" id="css" name="fav_language" value="CSS">
-<label for="css">Assign manuelly</label>
-<input type="radio" id="javascript" name="fav_language" value="JavaScript">
-<label for="javascript">Let Participants choose the room</label>
+	<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel2">Break out Room</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<ul class="list-group">
+					<li class="list-group-item">
+						Breakout room 1
+						<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" target="_blank" class="btn btn-sm float-end btn-text-primary">
+							View
+						</a>  
+						<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm float-end btn-text-primary">
+							Close
+						</a>                    
+					</li>
+					<li class="list-group-item">Breakout room 2
+						<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" target="_blank" class="btn btn-sm float-end btn-text-primary">
+							View
+						</a>  
+						<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm float-end btn-text-primary">
+							Close
+						</a>  
+					</li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete Room</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" type="button" class="btn btn-primary">Start</a>
+			</div>
+			</div>
+		</div>
+    </div>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal2">Submit</button>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-        <div class="modal fade" id="myModal2" role="dialog">
-            <div class="modal-dialog">
-            
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Breakout Rooms</h4>
-                </div>
-            
-                    <form action="#">
-                        <label for="lang">Room1</label>
-                        <select name="languages" id="lang">
-                          <option value="javascript">Ferns Ferdinand</option>
-                          <option value="php">Shirley Sprout</option>
-                        </select>
-                        
-                       
-                  </form>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Break out Room</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<ul class="list-group">
+					<li class="list-group-item">
+						Breakout room 1
+						<a data-bs-toggle="modal" data-bs-target="#exampleModal4" class="btn btn-sm float-end btn-text-primary">
+							Add User
+						</a>
+						<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" target="_blank" class="btn btn-sm float-end btn-text-primary">
+							View
+						</a>  
+						<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm float-end btn-text-primary">
+							Edit
+						</a>                    
+					</li>
+					<li class="list-group-item">Breakout room 2
+						<a data-bs-toggle="modal" data-bs-target="#exampleModal4" class="btn btn-sm float-end btn-text-primary">
+							Add User
+						</a>
+						<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" target="_blank" class="btn btn-sm float-end btn-text-primary">
+							View
+						</a>  
+						<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm float-end btn-text-primary">
+							Edit
+						</a>   
+					</li>
+					<li class="list-group-item">Breakout room 3
+						<a data-bs-toggle="modal" data-bs-target="#exampleModal4" class="btn btn-sm float-end btn-text-primary">
+							Add User
+						</a>
+						<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" target="_blank" class="btn btn-sm float-end btn-text-primary">
+							View
+						</a>
+						<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm float-end btn-text-primary">
+							Edit
+						</a>   
+					</li>
+					<li class="list-group-item">Breakout room 4
+						<a data-bs-toggle="modal" data-bs-target="#exampleModal4" class="btn btn-sm float-end btn-text-primary">
+							Add User
+						</a>
+						<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" target="_blank" class="btn btn-sm float-end btn-text-primary">
+							View
+						</a>
+						<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm float-end btn-text-primary">
+							Edit
+						</a>   
+					</li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<a href="https://videoconference.evanalin.com/8193f9da-4b04-4aad-82d2-beb67fb8b1f4" type="button" class="btn btn-primary">Start</a>
+			</div>
+			</div>
+		</div>
+    </div>
 
-                  <form action="#">
-                    <label for="lang">Room2</label>
-                    <select name="languages" id="lang">
-                      <option value="javascript">Ferns Ferdinand</option>
-                      <option value="php">Shirley Sprout</option>
-                    </select>
-                    
-                   
-              </form>
+	<div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel4">Edit Room</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<input type="text" placeholder="Email Address" class="form-control"/>
+				<button type="button" class="btn btn-primary mt-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					Add User
+				</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Close</button>
+			</div>
+			</div>
+		</div>
+    </div>
 
-              <form action="#">
-                <label for="lang">Room3</label>
-                <select name="languages" id="lang">
-                  <option value="javascript">Ferns Ferdinand</option>
-                  <option value="php">Shirley Sprout</option>
-                </select>
-                
-                
-          </form>
-  
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-      </div>
+	<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel1">Edit Room</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<li class="list-group-item">
+					Danel Clark <br />
+					<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm btn-danger">
+						Delete
+					</a>                      
+				</li>
+				<li class="list-group-item">Robin Stone<br />
+					<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm btn-danger">
+						Delete
+					</a>   
+				</li>
+				<li class="list-group-item">Test User <br />
+					<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm btn-danger">
+						Delete
+					</a>   
+				</li>
+				<li class="list-group-item">dasdas dasdasdf <br />
+					<a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-sm btn-danger">
+						Delete
+					</a>   
+				</li>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Close</button>
+			</div>
+			</div>
+		</div>
+    </div>
 </section>
 <!-- =======================
-Page content END -->
+Inner part END -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
@@ -508,6 +419,7 @@ Footer END -->
 <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
+<script src="assets/vendor/choices/js/choices.min.js"></script>
 <script src="assets/vendor/purecounterjs/dist/purecounter_vanilla.js"></script>
 <script src="assets/vendor/apexcharts/js/apexcharts.min.js"></script>
 
